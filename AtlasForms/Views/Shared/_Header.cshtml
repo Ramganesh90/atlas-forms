@@ -1,0 +1,38 @@
+﻿
+@model IEnumerable<AtlasForms.Models.Menu>
+
+<div class="navbar navbar-default">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".main-nav">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse main-nav">
+
+            <ul class="nav navbar-nav navbar-right">
+
+                @foreach (var menuOne in Model.Where(i => i.Level == 1).OrderBy(j => j.MenuId))
+                {
+                    <li><a href='@menuOne.MenuLink' target="_blank">@menuOne.Name</a></li>
+                }
+            </ul>
+    </div>
+</div>
+
+
+<header id="header">
+    <img src="~/Content/images/logo.png" id="logo" class="img-responsive" alt="logo" />
+</header>
+<script>
+    function WinOpen(navigateUrl) {
+        var params = [
+                       'height=' + screen.height,
+                       'width=' + screen.width,
+                       'fullscreen=yes' // only works in IE, but here for completeness
+        ].join(',');
+        var popup = window.open(navigateUrl, '', params);
+        popup.moveTo(0, 0);
+    }
+</script>

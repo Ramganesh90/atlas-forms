@@ -1,0 +1,24 @@
+﻿@model AtlasForms.Models.Checklist
+@{
+    ViewBag.Title = "Home Page";
+}
+<div class="col-md-12">
+    <h1>Checklist</h1>
+    <div class="row">
+                <div class="col-md-4 col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SalContFirstName, new { @class = "control-label" })<span class="required">*</span>
+                        @Html.TextBoxFor(model => model.SalContFirstName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SalContFirstName)
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SalContLastName, htmlAttributes: new { @class = "control-label" })<span class="required">*</span>
+
+                        @Html.EditorFor(model => model.SalContLastName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SalContLastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+</div>

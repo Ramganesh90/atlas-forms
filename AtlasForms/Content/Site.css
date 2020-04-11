@@ -1,0 +1,261 @@
+﻿@font-face {
+    font-family: 'MyriadProRegularBold';
+    src: url('font/myriadpro-bold.eot'); /* IE9 Compat Modes */
+    src: url('font/myriadpro-bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('font/myriadpro-bold.woff2') format('woff2'), /* Super Modern Browsers */
+    url('font/myriadpro-bold.woff') format('woff'), /* Pretty Modern Browsers */
+    url('font/myriadpro-bold.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('font/myriadpro-bold.svg#myriadpro-bold') format('svg'); /* Legacy iOS */
+}
+
+@font-face {
+    font-family: 'MyriadProRegular';
+    src: url('font/myriadpro-regular.eot'); /* IE9 Compat Modes */
+    src: url('font/myriadpro-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('font/myriadpro-regular.woff2') format('woff2'), /* Super Modern Browsers */
+    url('font/myriadpro-regular.woff') format('woff'), /* Pretty Modern Browsers */
+    url('font/myriadpro-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('font/myriadpro-regular.svg#myriadpro-regular') format('svg'); /* Legacy iOS */
+}
+
+input[type=text]::-ms-clear {
+    display: none;
+}
+
+* {
+    font-family: MyriadProRegular;
+    font-size: 14pt;
+    color: #777777;
+}
+
+body {
+    left: 0;
+    padding: 0px;
+}
+
+
+h1, h2, h3, h4 {
+    font-family: MyriadProRegularBold;
+    color: #0E2D4C;
+}
+
+h1 {
+    font-size: 28pt;
+}
+
+h2 {
+    font-size: 24pt;
+}
+
+h3 {
+    font-size: 22pt;
+}
+
+h4 {
+    font-size: 15pt;
+}
+
+#logo{
+    width:30%;
+}
+
+.normal-heading-text {
+    color: #0E2D4C;
+    font-family: MyriadProRegular;
+    text-decoration: underline;
+    cursor:pointer;
+}
+
+.normal-heading-bold-text {
+    color: #0E2D4C;
+    font-family: MyriadProRegularBold;
+    text-decoration: underline;
+}
+
+/* Custom .navbar */
+/* Top Menu Bar Office Menu*/
+
+.navbar {
+    min-height: 35px !important;
+    margin: 0px !important;
+    top: 0;
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
+.navbar-nav > li > a,
+.navbar-brand {
+    padding-top: 10px !important;
+    padding-bottom: 0 !important;
+    height: 35px;
+}
+
+.navbar-default {
+    background-color: #0E2D4C;
+    border-color: #9891bd;
+}
+
+    .navbar-default .navbar-brand {
+        color: #ffffff;
+    }
+
+        .navbar-default .navbar-brand:hover,
+        .navbar-default .navbar-brand:focus {
+            color: #ffffff;
+        }
+
+    .navbar-default .navbar-text {
+        color: #ffffff;
+    }
+
+    .navbar-default .navbar-nav > li > a {
+        color: #ffffff;
+        font-size: 12pt;
+    }
+
+        .navbar-default .navbar-nav > li > a:hover,
+        .navbar-default .navbar-nav > li > a:focus {
+            color: #ffffff;
+        }
+
+
+    .navbar-default .navbar-nav > .active > a,
+    .navbar-default .navbar-nav > .active > a:hover,
+    .navbar-default .navbar-nav > .active > a:focus {
+        color: #ffffff;
+        background-color: #ffffff;
+    }
+
+    .navbar-default .navbar-nav > .open > a,
+    .navbar-default .navbar-nav > .open > a:hover,
+    .navbar-default .navbar-nav > .open > a:focus {
+        color: #ffffff;
+        background-color: #ffffff;
+    }
+
+    .navbar-default .navbar-toggle {
+        border-color: #9891bd;
+    }
+
+        .navbar-default .navbar-toggle:hover,
+        .navbar-default .navbar-toggle:focus {
+            background-color: #9891bd;
+        }
+
+        .navbar-default .navbar-toggle .icon-bar {
+            background-color: #ffffff;
+        }
+
+    .navbar-default .navbar-collapse,
+    .navbar-default .navbar-form {
+        border-color: #ffffff;
+    }
+
+    .navbar-default .navbar-link {
+        color: #ffffff;
+    }
+
+        .navbar-default .navbar-link:hover {
+            color: #ffffff;
+        }
+
+@media (max-width: 767px) {
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+        color: #ffffff;
+    }
+
+        .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+        .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+            color: #ecdbff;
+        }
+
+    .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+    .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+    .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+        color: #ecdbff;
+        background-color: #9891bd;
+    }
+
+    #logo {
+        /*width: 100%;
+        height: 100%;*/
+        min-width: 250px;
+        min-height: 80px;
+    }
+}
+/* Office Menu - Ends*/
+
+hr {
+    margin-top: 0PX !important;
+    margin-bottom: 0px !important;
+    border-top: 1px solid #eeeeee;
+}
+
+/*Button*/
+.btn {
+    background-color: #0e2d4c !important;
+}
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active {
+    color: #FFF;
+    background-color: #143F6A;
+    border-color: #143F6A;
+    font-family: MyriadProRegular;
+    font-size: 14pt;
+    margin: 5px;
+}
+
+.btn-default,
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active {
+    color: #777777;
+    background-color: #EBEBEB;
+    border: none;
+    border-radius: 2px;
+    font-family: MyriadProRegularBold;
+    font-size: 14pt;
+}
+
+.btn-shadow {
+    color: #0E2D4C;
+    font-family: MyriadProRegularBold;
+    font-size: 14pt;
+    width: 42%;
+    margin-top: 15px;
+    height: 42px !important;
+    padding: 6px;
+    margin-right: 18px;
+    background-color: white;
+    border: 1px solid #eeeeee;
+    -webkit-box-shadow: 0px 4px 1px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 4px 1px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 4px 1px 0px rgba(0,0,0,0.75);
+}
+
+.white, .white a {
+    color: #fff;
+}
+
+.hyperlinks {
+    font-family: MyriadProRegular;
+    color: #777777;
+    text-decoration: underline;
+}
+
+.field-validation-error > span, .required {
+    color: red !important;
+    font-size: 10pt !important;
+}
+.input-text {
+    font-size: 20px;
+    color: #555555;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+}

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Atlas>
+  <Menu>
+    <MenuId>1</MenuId>
+    <Name>Our Website</Name>
+    <Level>1</Level>
+    <MenuLink>https://www.atlasoutdoor.com</MenuLink>
+  </Menu>
+  <Menu>
+    <MenuId>2</MenuId>
+    <Name>Photo Galleries</Name>
+    <Level>1</Level>
+    <MenuLink>https://www.atlasoutdoor.com/fence-gate-photo-gallery</MenuLink>
+  </Menu>
+  <Menu>
+    <MenuId>3</MenuId>
+    <Name>Online Product Brochure</Name>
+    <Level>1</Level>
+    <MenuLink>http://www.mydigitalpublication.com/publication/frame.php?i=219228&#x26;p=&#x26;pn=&#x26;ver=html5</MenuLink>
+  </Menu>
+</Atlas>
