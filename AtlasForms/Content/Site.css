@@ -253,9 +253,21 @@ hr {
     font-size: 10pt !important;
 }
 .input-text {
-    font-size: 20px;
-    color: #555555;
+    font-size: medium;
+    color: #555555; 
     background-color: #ffffff;
     border: 1px solid #cccccc;
     border-radius: 4px;
+}
+
+#checklist-form input,#checklist-form select, #checklist-form textarea{
+    font-size: medium;
+}
+
+
+.project-labels{
+    font-family: MyriadProRegularBold;
+    color: #0E2D4C !important;
+    padding:0px !important;
+    font-size: medium;
 }

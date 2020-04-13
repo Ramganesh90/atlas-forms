@@ -11,18 +11,7 @@ namespace AtlasForms.Controllers
     {
         public ActionResult Index()
         {
-            try
-            {
-                string s = "asdf";
-                int i = Convert.ToInt16(s);
-            }
-            catch (Exception ex)
-            {
-                Logger.SaveErr(ex);
-
-            }
-
-            return View();
+                return View();
         }
 
         public ActionResult About()

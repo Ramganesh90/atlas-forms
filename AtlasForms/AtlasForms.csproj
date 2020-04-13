@@ -44,6 +44,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=5.5.13.1, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.1\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationBlocks.Data.2.0.0\lib\net45\Microsoft.ApplicationBlocks.Data.dll</HintPath>
       <Private>True</Private>
@@ -124,16 +128,28 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="DataAccess\Entity\ChecklistDal.cs" />
+    <Compile Include="DataAccess\Entity\PDFUtil.cs" />
+    <Compile Include="DataAccess\Entity\PDFReportEventHelper.cs" />
+    <Compile Include="Models\BusinessConstants.cs" />
+    <Compile Include="Controllers\ChecklistController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PartialController.cs" />
     <Compile Include="DataAccess\DataObject.cs" />
     <Compile Include="DataAccess\Entity\Logger.cs" />
     <Compile Include="DataAccess\_DataObject.cs" />
-    <Compile Include="Models\Checklist.cs" />
+    <Compile Include="Models\JobActivationChecklist.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\PRL03_Users.cs" />
+    <Compile Include="Models\SYS10_MhRates.cs" />
+    <Compile Include="Models\DOC10_Responses.cs" />
+    <Compile Include="Models\DOC09_JobTypes.cs" />
+    <Compile Include="Models\DOC08_CustomerType.cs" />
     <Compile Include="Models\Menu.cs" />
+    <Compile Include="Models\ProjectChecklistHeader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -173,9 +189,11 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="Views\Checklist\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\images\" />
+    <Folder Include="Views\Reports\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -199,7 +217,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>63566</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/AtlasForms</IISUrl>
+          <IISUrl>http://localhost/AtlasAddons</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
