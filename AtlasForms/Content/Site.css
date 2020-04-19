@@ -258,6 +258,7 @@ hr {
     background-color: #ffffff;
     border: 1px solid #cccccc;
     border-radius: 4px;
+    
 }
 
 #checklist-form input,#checklist-form select, #checklist-form textarea{
@@ -268,6 +269,11 @@ hr {
 .project-labels{
     font-family: MyriadProRegularBold;
     color: #0E2D4C !important;
-    padding:0px !important;
+    padding:5px !important;
     font-size: medium;
+}
+
+.project-info{
+    padding-left: 5px;
+
 }

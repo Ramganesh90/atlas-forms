@@ -41,7 +41,7 @@ namespace AtlasForms.DataAccess.Entity
             return LineSeparator;
         }
 
-        public static PdfPCell CreateCell(object text, Font fontStyle, int align = 0, bool hasBorder = false, BaseColor baseColor = null, bool padding = false)
+        public static PdfPCell CreateCell(object text, Font fontStyle, int align = 0, bool hasBorder = false, BaseColor baseColor = null, bool padding = false, int colSpan =0)
         {
             var cell = new PdfPCell(new Phrase(Convert.ToString(text), fontStyle));
             if (hasBorder)
@@ -57,6 +57,10 @@ namespace AtlasForms.DataAccess.Entity
             if (!padding)
             {
                 cell.Padding = 5;
+            }
+            if(colSpan > 0)
+            {
+                cell.Colspan = colSpan;
             }
             return cell;
         }

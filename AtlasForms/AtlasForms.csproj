@@ -128,10 +128,14 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\HardCardController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="DataAccess\Entity\AppUtil.cs" />
     <Compile Include="DataAccess\Entity\ChecklistDal.cs" />
+    <Compile Include="DataAccess\Entity\HardCardDal.cs" />
     <Compile Include="DataAccess\Entity\PDFUtil.cs" />
     <Compile Include="DataAccess\Entity\PDFReportEventHelper.cs" />
+    <Compile Include="Models\BuildChecklist.cs" />
     <Compile Include="Models\BusinessConstants.cs" />
     <Compile Include="Controllers\ChecklistController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -139,17 +143,27 @@
     <Compile Include="DataAccess\DataObject.cs" />
     <Compile Include="DataAccess\Entity\Logger.cs" />
     <Compile Include="DataAccess\_DataObject.cs" />
+    <Compile Include="Models\ContractorInformation.cs" />
+    <Compile Include="Models\DOC06_TearOutTypes.cs" />
+    <Compile Include="Models\DOC03_FenceInstall.cs" />
+    <Compile Include="Models\DOC04_FenceDirection.cs" />
+    <Compile Include="Models\Installation.cs" />
+    <Compile Include="Models\SYS07_FenceTypes.cs" />
     <Compile Include="Models\JobActivationChecklist.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\PRL03_Users.cs" />
+    <Compile Include="Models\JobInformation.cs" />
+    <Compile Include="Models\Sys_Users.cs" />
+    <Compile Include="Models\HardCard.cs" />
     <Compile Include="Models\SYS10_MhRates.cs" />
     <Compile Include="Models\DOC10_Responses.cs" />
     <Compile Include="Models\DOC09_JobTypes.cs" />
     <Compile Include="Models\DOC08_CustomerType.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\ProjectChecklistHeader.cs" />
+    <Compile Include="Models\DOC05_GateInstallation.cs" />
+    <Compile Include="Models\SYS14_DigType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +208,7 @@
     <Content Include="Views\Checklist\Index.cshtml" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <Content Include="Views\HardCard\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\images\" />

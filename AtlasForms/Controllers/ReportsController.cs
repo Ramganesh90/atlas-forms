@@ -62,9 +62,9 @@ namespace AtlasForms.Controllers
             projectTable.AddCell(PDFUtil.CreateCell(CustomerAddr, PDFUtil.spanNormalBlack, 0, false));
             projectTable.AddCell(PDFUtil.CreateCell("Phone Number, Extension", PDFUtil.font_body_bold, 2, false));
             string CustomerPhone = string.Format("{0} | {1}",
-                                                        model.projectInformation.CustomerProfile.PhoneNumber,
-                                                        model.projectInformation.CustomerProfile.Extension);
-            projectTable.AddCell(PDFUtil.CreateCell(CustomerPhone, PDFUtil.spanNormalBlack, 0, false));
+                                                        model.projectInformation.CustomerProfile.PhoneNumber ?? "NA",
+                                                        model.projectInformation.CustomerProfile.Extension ?? "NA");
+            projectTable.AddCell(PDFUtil.CreateCell(CustomerPhone ?? "NA", PDFUtil.spanNormalBlack, 0, false));
             projectTable.AddCell(PDFUtil.CreateCell("Project Name", PDFUtil.font_body_bold, 2, false));
             projectTable.AddCell(PDFUtil.CreateCell(model.projectInformation.ProjectProfile.Name, PDFUtil.spanNormalBlack, 0, false));
             projectTable.AddCell(PDFUtil.CreateCell("Address, City, State, Zip", PDFUtil.font_body_bold, 2, false));
@@ -76,9 +76,9 @@ namespace AtlasForms.Controllers
             projectTable.AddCell(PDFUtil.CreateCell(ProjectAddr, PDFUtil.spanNormalBlack, 0, false));
             projectTable.AddCell(PDFUtil.CreateCell("Contact Name/Phone Number, Ext", PDFUtil.font_body_bold, 2, false));
             string ProjectPhone = string.Format("{0} | {1} | {2}",
-                                                        model.projectInformation.CustomerProfile.ContactName,
-                                                        model.projectInformation.CustomerProfile.PhoneNumber,
-                                                        model.projectInformation.CustomerProfile.Extension);
+                                                        model.projectInformation.CustomerProfile.ContactName ?? "NA",
+                                                        model.projectInformation.CustomerProfile.PhoneNumber ?? "NA",
+                                                        model.projectInformation.CustomerProfile.Extension ?? "NA");
             projectTable.AddCell(PDFUtil.CreateCell(ProjectPhone, PDFUtil.spanNormalBlack, 0, false));
             projectTable.AddCell(PDFUtil.CreateCell("Customer Type", PDFUtil.font_body_bold, 2, false));
             projectTable.AddCell(PDFUtil.CreateCell(model.ListCustomersTypes.
@@ -92,7 +92,7 @@ namespace AtlasForms.Controllers
             projectTable.AddCell(PDFUtil.CreateCell(model.projectInformation.ScopeWorkToBePerformed, PDFUtil.spanNormalBlack, 0, false));
 
             projectTable.AddCell(PDFUtil.CreateCell("Type of Labor", PDFUtil.font_body_bold, 2, false));
-            projectTable.AddCell(PDFUtil.CreateCell(model.projectInformation.TypeOfLabour, PDFUtil.spanNormalBlack, 0, false));
+            projectTable.AddCell(PDFUtil.CreateCell(model.ListLabourTypes.First(i => i.MhRateId.ToString() == model.projectInformation.TypeOfLabour).MhRateName, PDFUtil.spanNormalBlack, 0, false));
 
             document.Add(projectTable);
 
@@ -265,7 +265,7 @@ namespace AtlasForms.Controllers
             footerTable.AddCell(PDFUtil.CreateCell(model.DateCompleted, PDFUtil.spanNormalBlack, 0, false));
 
             footerTable.AddCell(PDFUtil.CreateCell("Approved By", PDFUtil.font_body_bold, 2, false));
-            footerTable.AddCell(PDFUtil.CreateCell(model.ApprovedBy, PDFUtil.spanNormalBlack, 0, false));
+            footerTable.AddCell(PDFUtil.CreateCell(model.ListUsers.First(i => i.UserId.ToString() == model.ApprovedBy).Name, PDFUtil.spanNormalBlack, 0, false));
             footerTable.AddCell(PDFUtil.CreateCell("Date Reviewed", PDFUtil.font_body_bold, 2, false));
             footerTable.AddCell(PDFUtil.CreateCell(model.DateReviewed, PDFUtil.spanNormalBlack, 0, false));
             document.Add(footerTable);
@@ -280,6 +280,290 @@ namespace AtlasForms.Controllers
             return File(output, "application/pdf");
         }
 
+
+        [Route("Report/JobHardDetails/id/{hid}")]
+        public FileStreamResult printHardCardDetails(string hid)
+        {
+            string title = string.Empty;
+
+            title = "Atlas Residential & Commerical Services LLC - Job Card";
+
+            var model = new HardCard();
+            model.HardCardId = Convert.ToInt32(hid);
+            HardCardDal.getHardCardDetails(model);
+            HardCardDal.getHardCardLookUpList(model);
+
+
+            // Set up the document and the MS to write it to and create the PDF writer instance
+            MemoryStream ms = new MemoryStream();
+            Document document = new Document(PageSize.A4.Rotate(), 15, 15, 46, 42);
+            PdfWriter writer = PdfWriter.GetInstance(document, ms);
+            writer.PageEvent = new PDFReportEventHelper(title);
+
+            // Open the PDF document
+            document.Open();
+
+            document.Add(PDFUtil.HeaderSection("Job Information"));
+
+            var jobInfo = new PdfPTable(4);
+            jobInfo.HorizontalAlignment = 0;
+            jobInfo.WidthPercentage = 90;
+            jobInfo.SpacingBefore = 5;
+            jobInfo.SpacingAfter = 5;
+            jobInfo.DefaultCell.Border = 0;
+            jobInfo.DefaultCell.Padding = 10f;
+            jobInfo.SetWidths(new float[] { 2, 2, 2, 2 });
+
+            jobInfo.AddCell(PDFUtil.CreateCell("Estimator", PDFUtil.font_body_bold, 2, false));
+            jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.EstimatorsName, PDFUtil.spanNormalBlack));
+            jobInfo.AddCell(PDFUtil.CreateCell("Job Number", PDFUtil.font_body_bold, 2, false));
+            jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.Atlas_Job_Number, PDFUtil.spanNormalBlack));
+
+            jobInfo.AddCell(PDFUtil.CreateCell("Est.Phone #", PDFUtil.font_body_bold, 2, false));
+            jobInfo.AddCell(PDFUtil.CreateCell(String.Format("{0:(###) ###-####}", model.JobInformationDetails.ContractPhoneNumber), PDFUtil.spanNormalBlack));
+            jobInfo.AddCell(PDFUtil.CreateCell("BI Number", PDFUtil.font_body_bold, 2, false));
+            jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.BidItemHeaderId, PDFUtil.spanNormalBlack));
+
+            jobInfo.AddCell(PDFUtil.CreateCell("Job Name", PDFUtil.font_body_bold, 2, false));
+            jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.JobName, PDFUtil.spanNormalBlack, colSpan:3));
+
+            jobInfo.AddCell(PDFUtil.CreateCell("Job Address", PDFUtil.font_body_bold, 2, false));
+            jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.JobAddress, PDFUtil.spanNormalBlack, colSpan: 3));
+
+            jobInfo.AddCell(PDFUtil.CreateCell("Job City", PDFUtil.font_body_bold, 2, false));
+            jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.JobCity, PDFUtil.spanNormalBlack));
+            jobInfo.AddCell(PDFUtil.CreateCell("Job State", PDFUtil.font_body_bold, 2, false));
+            jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.JobState, PDFUtil.spanNormalBlack));
+
+            jobInfo.AddCell(PDFUtil.CreateCell("Job Contact", PDFUtil.font_body_bold, 2, false));
+            jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.JobContact, PDFUtil.spanNormalBlack));
+            jobInfo.AddCell(PDFUtil.CreateCell("Call In Route", PDFUtil.font_body_bold, 2, false));
+            jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.ListJobInfoResponse.
+                First(i => i.ResponseId.ToString() == model.JobInformationDetails.CallInRoute).Response, PDFUtil.spanNormalBlack));
+
+            jobInfo.AddCell(PDFUtil.CreateCell("Contact Phone", PDFUtil.font_body_bold, 2, false));
+            jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.JobPhone, PDFUtil.spanNormalBlack));
+            jobInfo.AddCell(PDFUtil.CreateCell("Contact Cell", PDFUtil.font_body_bold, 2, false));
+            jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.JobCell, PDFUtil.spanNormalBlack));
+
+            document.Add(jobInfo);
+
+            document.Add(PDFUtil.HeaderSection("Contract Information"));
+
+            var contractInfo = new PdfPTable(4);
+            contractInfo.HorizontalAlignment = 0;
+            contractInfo.WidthPercentage = 90;
+            contractInfo.SpacingBefore = 5;
+            contractInfo.SpacingAfter = 5;
+            contractInfo.DefaultCell.Border = 0;
+            contractInfo.DefaultCell.Padding = 10f;
+            contractInfo.SetWidths(new float[] { 2, 2, 2, 2 });
+
+            contractInfo.AddCell(PDFUtil.CreateCell("Contractor Name", PDFUtil.font_body_bold, 2, false));
+            contractInfo.AddCell(PDFUtil.CreateCell(model.ContractInformationDetails.ContractorName, PDFUtil.spanNormalBlack,colSpan: 3));
+
+
+            contractInfo.AddCell(PDFUtil.CreateCell("Primary Contact Name", PDFUtil.font_body_bold, 2, false));
+            contractInfo.AddCell(PDFUtil.CreateCell(model.ContractInformationDetails.PrimaryContact, PDFUtil.spanNormalBlack));
+            contractInfo.AddCell(PDFUtil.CreateCell("Phone", PDFUtil.font_body_bold, 2, false));
+            contractInfo.AddCell(PDFUtil.CreateCell(model.ContractInformationDetails.PrimaryPhone, PDFUtil.spanNormalBlack));
+
+            contractInfo.AddCell(PDFUtil.CreateCell("Fence Type", PDFUtil.font_body_bold, 2, false));
+            contractInfo.AddCell(PDFUtil.CreateCell(model.ContractInformationDetails.ListFenceTypes.
+                First(i => i.FenceTypeId.ToString() == model.ContractInformationDetails.FenceType).FenceTypeName, PDFUtil.spanNormalBlack,colSpan: 3));
+
+            contractInfo.AddCell(PDFUtil.CreateCell("Special Notes", PDFUtil.font_body_bold, 2, false));
+            contractInfo.AddCell(PDFUtil.CreateCell(model.ContractInformationDetails.SplNotes, PDFUtil.spanNormalBlack));
+            contractInfo.AddCell(PDFUtil.CreateCell("Directions", PDFUtil.font_body_bold, 2, false));
+            contractInfo.AddCell(PDFUtil.CreateCell(model.ContractInformationDetails.Directions, PDFUtil.spanNormalBlack));
+
+            document.Add(contractInfo);
+
+            document.Add(PDFUtil.HeaderSection("Installation"));
+
+            var installDetails = new PdfPTable(6);
+            installDetails.HorizontalAlignment = 0;
+            installDetails.WidthPercentage = 90;
+            installDetails.SpacingBefore = 5;
+            installDetails.SpacingAfter = 5;
+            installDetails.DefaultCell.Border = 0;
+            installDetails.DefaultCell.Padding = 10f;
+            installDetails.SetWidths(new float[] { 2, 2, 2, 2,2,2 });
+
+            installDetails.AddCell(PDFUtil.CreateCell("Pre Make Gates", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListInstallationResponses.
+                First(i => i.ResponseId.ToString() == model.InstallationDetails.PremakeGate.ToString()).Response, PDFUtil.spanNormalBlack, colSpan: 5));
+
+
+            installDetails.AddCell(PDFUtil.CreateCell("CBYD", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListInstallationResponses.
+                First(i => i.ResponseId.ToString() == model.InstallationDetails.CBYD.ToString()).Response, PDFUtil.spanNormalBlack));
+            installDetails.AddCell(PDFUtil.CreateCell("CBYD Date", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.CBYDDate, PDFUtil.spanNormalBlack));
+            installDetails.AddCell(PDFUtil.CreateCell("CBYD Number", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.CBYDNumber, PDFUtil.spanNormalBlack));
+
+            installDetails.AddCell(PDFUtil.CreateCell("Start Date", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.StartDate, PDFUtil.spanNormalBlack));
+            installDetails.AddCell(PDFUtil.CreateCell("Finish Date", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.FinishDate, PDFUtil.spanNormalBlack));
+            installDetails.AddCell(PDFUtil.CreateCell("Hard Date", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.HardDate, PDFUtil.spanNormalBlack));
+
+            installDetails.AddCell(PDFUtil.CreateCell("Gate Description", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.GateDescription1, PDFUtil.spanNormalBlack));
+            installDetails.AddCell(PDFUtil.CreateCell("Gate Installation", PDFUtil.font_body_bold, 2, false ));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListGateInstallation.
+                First(i => i.GateInstallationID== model.InstallationDetails.GateInstallationID1).Description, PDFUtil.spanNormalBlack, colSpan: 3));
+
+            installDetails.AddCell(PDFUtil.CreateCell("Gate Description", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.GateDescription2, PDFUtil.spanNormalBlack));
+            installDetails.AddCell(PDFUtil.CreateCell("Gate Installation", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListGateInstallation.
+                First(i => i.GateInstallationID == model.InstallationDetails.GateInstallationID2).Description, PDFUtil.spanNormalBlack, colSpan: 3));
+
+            installDetails.AddCell(PDFUtil.CreateCell("Gate Description", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.GateDescription3, PDFUtil.spanNormalBlack));
+            installDetails.AddCell(PDFUtil.CreateCell("Gate Installation", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListGateInstallation.
+                First(i => i.GateInstallationID == model.InstallationDetails.GateInstallationID3).Description, PDFUtil.spanNormalBlack, colSpan: 3));
+
+            installDetails.AddCell(PDFUtil.CreateCell("Gate Description", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.GateDescription4, PDFUtil.spanNormalBlack));
+            installDetails.AddCell(PDFUtil.CreateCell("Gate Installation", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListGateInstallation.
+                First(i => i.GateInstallationID == model.InstallationDetails.GateInstallationID4).Description, PDFUtil.spanNormalBlack, colSpan: 3));
+
+            installDetails.AddCell(PDFUtil.CreateCell("Gate Description", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.GateDescription5, PDFUtil.spanNormalBlack));
+            installDetails.AddCell(PDFUtil.CreateCell("Gate Installation", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListGateInstallation.
+                First(i => i.GateInstallationID == model.InstallationDetails.GateInstallationID5).Description, PDFUtil.spanNormalBlack, colSpan: 3));
+
+
+            installDetails.AddCell(PDFUtil.CreateCell("Equipment Required", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListInstallationResponses.
+                First(i => i.ResponseId.ToString() == model.InstallationDetails.EquipmentRequired).Response, PDFUtil.spanNormalBlack));
+            installDetails.AddCell(PDFUtil.CreateCell("Dig Type", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListDigType.
+                First(i => i.DigTypeId == model.InstallationDetails.DigTypeID).DigType, PDFUtil.spanNormalBlack, colSpan:3));
+
+            installDetails.AddCell(PDFUtil.CreateCell("Water Available", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListInstallationResponses.
+                First(i => i.ResponseId.ToString() == model.InstallationDetails.WaterAvailible.ToString()).Response, PDFUtil.spanNormalBlack));
+            installDetails.AddCell(PDFUtil.CreateCell("Electricity Available", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListInstallationResponses.
+                First(i => i.ResponseId == model.InstallationDetails.ElectricityAvailible).Response, PDFUtil.spanNormalBlack, colSpan: 3));
+
+            installDetails.AddCell(PDFUtil.CreateCell("Measure By Installer", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListInstallationResponses.
+                First(i => i.ResponseId.ToString() == model.InstallationDetails.MeasureByInstaller.ToString()).Response, PDFUtil.spanNormalBlack));
+            installDetails.AddCell(PDFUtil.CreateCell("Leave Samples By Installer", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListInstallationResponses.
+                First(i => i.ResponseId == model.InstallationDetails.LeaveSamplesByInstaller).Response, PDFUtil.spanNormalBlack, colSpan: 3));
+
+            installDetails.AddCell(PDFUtil.CreateCell("Scope", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.Scope, PDFUtil.spanNormalBlack));
+            installDetails.AddCell(PDFUtil.CreateCell("Budgeted Install Days", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.BudgetedInstallDays, PDFUtil.spanNormalBlack, colSpan: 3));
+
+            document.Add(installDetails);
+
+            var buildList = new PdfPTable(6);
+            buildList.HorizontalAlignment = 0;
+            buildList.WidthPercentage = 90;
+            buildList.SpacingBefore = 5;
+            buildList.SpacingAfter = 5;
+            buildList.DefaultCell.Border = 0;
+            buildList.DefaultCell.Padding = 10f;
+            buildList.SetWidths(new float[] { 2, 2, 2, 2, 2, 2 });
+
+            buildList.AddCell(PDFUtil.CreateCell("Pool Code", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
+                First(i => i.ResponseId.ToString() == model.BuildChecklistDetails.PoolCode.ToString()).Response, PDFUtil.spanNormalBlack));
+            buildList.AddCell(PDFUtil.CreateCell("Dowelled", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
+                First(i => i.ResponseId == model.BuildChecklistDetails.Dowelled).Response, PDFUtil.spanNormalBlack));
+            buildList.AddCell(PDFUtil.CreateCell("Safety Officer Onsite", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
+                First(i => i.ResponseId == model.BuildChecklistDetails.SafetyOfficerOnsite).Response, PDFUtil.spanNormalBlack));
+
+            buildList.AddCell(PDFUtil.CreateCell("Build For Rack", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
+                First(i => i.ResponseId.ToString() == model.BuildChecklistDetails.BuildForRack.ToString()).Response, PDFUtil.spanNormalBlack));
+            buildList.AddCell(PDFUtil.CreateCell("Morticed", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
+                First(i => i.ResponseId == model.BuildChecklistDetails.Morticed).Response, PDFUtil.spanNormalBlack));
+            buildList.AddCell(PDFUtil.CreateCell("Saftey Meeting/Orintation Onsite", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
+                First(i => i.ResponseId == model.BuildChecklistDetails.SafteyMeetingOrintationOnsiteReq).Response, PDFUtil.spanNormalBlack));
+
+            buildList.AddCell(PDFUtil.CreateCell("Stepping Temp", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
+                First(i => i.ResponseId.ToString() == model.BuildChecklistDetails.SteppingTemp.ToString()).Response, PDFUtil.spanNormalBlack));
+            buildList.AddCell(PDFUtil.CreateCell("Nail On", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
+                First(i => i.ResponseId == model.BuildChecklistDetails.NailOn).Response, PDFUtil.spanNormalBlack));
+            buildList.AddCell(PDFUtil.CreateCell("Saftey Inspection Before Job Starts", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
+                First(i => i.ResponseId == model.BuildChecklistDetails.SafteyInspectionReqBeforeJobStarts).Response, PDFUtil.spanNormalBlack));
+
+            buildList.AddCell(PDFUtil.CreateCell("Fence Direction", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListFenceDirection.
+                First(i => i.FenceDirectionID.ToString() == model.BuildChecklistDetails.FenceDirectionID.ToString()).Description, PDFUtil.spanNormalBlack));
+            buildList.AddCell(PDFUtil.CreateCell("Single Nailed", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
+                First(i => i.ResponseId == model.BuildChecklistDetails.SingleNailed).Response, PDFUtil.spanNormalBlack));
+            buildList.AddCell(PDFUtil.CreateCell("PPE Required", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
+                First(i => i.ResponseId == model.BuildChecklistDetails.PPERequired).Response, PDFUtil.spanNormalBlack));
+
+            buildList.AddCell(PDFUtil.CreateCell("Fence Install", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListFenceInstall.
+                First(i => i.FenceInstallID.ToString() == model.BuildChecklistDetails.FenceInstallID.ToString()).Description, PDFUtil.spanNormalBlack));
+            buildList.AddCell(PDFUtil.CreateCell("Build Full Sections", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
+                First(i => i.ResponseId == model.BuildChecklistDetails.BuildFullSections).Response, PDFUtil.spanNormalBlack));
+            buildList.AddCell(PDFUtil.CreateCell("Equipment Operator Certs", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
+                First(i => i.ResponseId == model.BuildChecklistDetails.EquipmentOperatorCertsReq).Response, PDFUtil.spanNormalBlack));
+
+            buildList.AddCell(PDFUtil.CreateCell("Trim In Field", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
+                First(i => i.ResponseId == model.BuildChecklistDetails.TrimInField).Response, PDFUtil.spanNormalBlack));
+            buildList.AddCell(PDFUtil.CreateCell("Stain", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
+                First(i => i.ResponseId == model.BuildChecklistDetails.Stain).Response, PDFUtil.spanNormalBlack, colSpan:3));
+
+            buildList.AddCell(PDFUtil.CreateCell("Post Pins", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
+                First(i => i.ResponseId == model.BuildChecklistDetails.PostPins).Response, PDFUtil.spanNormalBlack));
+            buildList.AddCell(PDFUtil.CreateCell("Stain Color", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.StainColor, PDFUtil.spanNormalBlack, colSpan: 3));
+
+            buildList.AddCell(PDFUtil.CreateCell("Tear Out Type", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListTearOutType.
+                First(i => i.TearOutTypeID == model.BuildChecklistDetails.TearOutTypeID).Description, PDFUtil.spanNormalBlack));
+            buildList.AddCell(PDFUtil.CreateCell("Stain Brand", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.StainBrand, PDFUtil.spanNormalBlack, colSpan: 3));
+
+            buildList.AddCell(PDFUtil.CreateCell("Other Hazards", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.OtherHazards, PDFUtil.spanNormalBlack, colSpan: 2));
+            buildList.AddCell(PDFUtil.CreateCell("Notes", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.Notes, PDFUtil.spanNormalBlack, colSpan: 3)); 
+
+            document.Add(buildList);
+
+            document.Close();
+            byte[] file = ms.ToArray();
+            MemoryStream output = new MemoryStream();
+            output.Write(file, 0, file.Length);
+            output.Position = 0;
+
+            HttpContext.Response.AddHeader("content-disposition", "inline; filename=HardCard" + hid + ".pdf");
+            return File(output, "application/pdf");
+
+        }
 
     }
 }

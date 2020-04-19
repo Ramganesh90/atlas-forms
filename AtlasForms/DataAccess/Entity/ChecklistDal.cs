@@ -31,6 +31,7 @@ namespace AtlasForms.DataAccess.Entity
                 parametersList.Add(new SqlParameter("@JobTypeId", model.projectInformation.Jobtype));
                 parametersList.Add(new SqlParameter("@CustomerBid_JobNum", model.projectInformation.CustomerBidReference));
                 parametersList.Add(new SqlParameter("@Scope", model.projectInformation.ScopeWorkToBePerformed));
+                parametersList.Add(new SqlParameter("@LabourType", model.projectInformation.TypeOfLabour));
                 parametersList.Add(new SqlParameter("@Contract", model.contractPaperWork.CopyOfContractorPO));
                 parametersList.Add(new SqlParameter("@ContractComments", model.contractPaperWork.CopyOfContractorPOComments));
                 parametersList.Add(new SqlParameter("@ScopePhased", model.contractPaperWork.BrokenScopephases));
@@ -66,7 +67,9 @@ namespace AtlasForms.DataAccess.Entity
                 parametersList.Add(new SqlParameter("@OtherHaz", model.safetyRequirements.OtherHazards));
                 parametersList.Add(new SqlParameter("@OtherHazComments", model.safetyRequirements.OtherHazardsComments));
                 parametersList.Add(new SqlParameter("@OtherComments", model.otherImportantFactors.OtherPertinentInformation));
+                parametersList.Add(new SqlParameter("@ApprovedBy", Convert.ToInt32(model.ApprovedBy)));
                 parametersList.Add(new SqlParameter("@DateCompleted", model.DateCompleted));
+                parametersList.Add(new SqlParameter("@DateReviewed", model.DateReviewed));
 
                 var id = SqlHelper.ExecuteNonQuery(_myConnection, CommandType.StoredProcedure, "spATL_PRJ_JobActChkLst_InsUpd",
                                       parametersList.ToArray());
@@ -123,7 +126,16 @@ namespace AtlasForms.DataAccess.Entity
                     objActivation.ListLabourTypes.Add(labourType);
                 }
 
+                objActivation.ListUsers = new List<Sys_UsersData>();
                 foreach (DataRow item in resultSet.Tables[4].Rows)
+                {
+                    var usersData = new Sys_UsersData();
+                    usersData.UserId = Convert.ToInt32(item["UserId"]);
+                    usersData.Name = Convert.ToString(item["Name"]);
+                    objActivation.ListUsers.Add(usersData);
+                }
+
+                foreach (DataRow item in resultSet.Tables[5].Rows)
                 {
                     objActivation.PRJID = Convert.ToInt32(item["ProjectHeaderId"]);
                     objActivation.projectInformation.JobNumber = Convert.ToString(item["Atlas_Job_Number"]);
@@ -145,11 +157,9 @@ namespace AtlasForms.DataAccess.Entity
                     objActivation.projectInformation.ProjectProfile.State = Convert.ToString(item["JobState"]);
                     objActivation.projectInformation.ProjectProfile.Zip = Convert.ToString(item["JobZip"]);
                     objActivation.projectInformation.ProjectProfile.PhoneNumber = Convert.ToString(item["JobPhone"]);
-                    //TODO: Check name
+                    //TODO: 
                     //objActivation.projectInformation.ProjectProfile.Extension = Convert.ToString(item["Job_PhoneExt"]);
                     objActivation.projectInformation.ProjectProfile.ContactName = Convert.ToString(item["JobContact"]);
-                    //TODO
-                    //objActivation.projectInformation.TypeOfLabour = Convert.ToString(item["TypeOfLabor"]);
                     objActivation.projectInformation.Estimator = Convert.ToString(item["EstimatorsName"]);
                 }
             }
@@ -175,12 +185,14 @@ namespace AtlasForms.DataAccess.Entity
                 objActivation.otherImportantFactors = new OtherImportantFactors();
                 foreach (DataRow item in resultSet.Tables[0].Rows)
                 {
+                    objActivation.recordExists = true;
                     objActivation.projectInformation.CustomerType = Convert.ToString(item["CustomerTypeID"]);
                     objActivation.projectInformation.Jobtype = Convert.ToString(item["JobTypeId"]);
 
                     objActivation.projectInformation.CustomerBidReference = Convert.ToString(item["CustomerBid_JobNum"]);
 
                     objActivation.projectInformation.ScopeWorkToBePerformed = Convert.ToString(item["Scope"]);
+                    objActivation.projectInformation.TypeOfLabour = Convert.ToString(item["LabourType"]);
 
                     objActivation.contractPaperWork.CopyOfContractorPO = Convert.ToString(item["Contract"]);
                     objActivation.contractPaperWork.CopyOfContractorPOComments = Convert.ToString(item["ContractComments"]);
@@ -209,10 +221,8 @@ namespace AtlasForms.DataAccess.Entity
                     objActivation.contractPaperWork.PayEnvelope = Convert.ToString(item["PayEnvelope"]);
                     objActivation.contractPaperWork.PayEnvelopeComments = Convert.ToString(item["PayEnvelopeComments"]);
 
-                    /************/
                     objActivation.bondingInsurance.InsuranceCertification = Convert.ToString(item["Bonding"]);
                     objActivation.bondingInsurance.InsuranceCertificationComments = Convert.ToString(item["BondingComments"]);
-                    /************/
 
                     objActivation.safetyRequirements.SafetyOfficer = Convert.ToString(item["SafetyOfficer"]);
                     objActivation.safetyRequirements.SafetyOfficerComments = Convert.ToString(item["SafetyOfficerComments"]);
@@ -236,12 +246,14 @@ namespace AtlasForms.DataAccess.Entity
                     objActivation.safetyRequirements.OtherHazardsComments = Convert.ToString(item["OtherHazComments"]);
 
                     objActivation.otherImportantFactors.OtherPertinentInformation = Convert.ToString(item["OtherComments"]);
-
+                    objActivation.ApprovedBy = Convert.ToString(item["Approved"]);
                     objActivation.DateCompleted = Convert.ToDateTime(item["DateCompleted"]).ToShortDateString();
+                    objActivation.DateReviewed = Convert.ToDateTime(item["ApprovedDate"]).ToShortDateString();
                 }
             }
             catch (Exception ex)
             {
+                objActivation.recordExists = false;
                 Logger.SaveErr(ex);
             }
             return objActivation;

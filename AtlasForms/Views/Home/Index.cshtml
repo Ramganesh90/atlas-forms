@@ -1,17 +1,32 @@
 ﻿@{
-    ViewBag.Title = "Contact";
+    ViewBag.Title = "Error";
+    ViewBag.message = "";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+<h1>@ViewBag.Title</h1>
+<h4>Request cannot be processed. Please contact admin! </h4>
+<div id="error-info style="display:none">
+    <span>
+        More Details >>
+    </span>
+    <p style="display:none">
+        @ViewBag.message
+    </p>
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    var message = @ViewBag.message  ?? false;
+
+    if(message)
+    {
+        $("span").click("on", function(){
+            $('p').show();
+        })
+    }
+</script>
+    }

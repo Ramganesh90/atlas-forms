@@ -17,16 +17,20 @@ namespace AtlasForms.Models
 
 
         [Display(Name = "Approved By")]
+        [Required(ErrorMessage = "Approver is Required")]
         public string ApprovedBy { get; set; }
         [Display(Name = "Date Completed")]
         public string DateCompleted { get; set; }
         [Display(Name = "Date Reviewed")]
         public string DateReviewed { get; set; }
 
+        public bool recordExists { get; set; }
+
         public List<SYS10_MhRates> ListLabourTypes { get; set; }
 
         public List<DOC08_CustomerType> ListCustomersTypes { get; set; }
         public List<DOC09_JobTypes> ListJobTypes { get; set; }
+        public List<Sys_UsersData> ListUsers { get; set; }
         public List<DOC10_Responses> ListResponses { get; set; }
 
     }

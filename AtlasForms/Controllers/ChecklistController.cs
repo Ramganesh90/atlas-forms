@@ -10,7 +10,7 @@ namespace AtlasForms.Controllers
 {
     public class ChecklistController : Controller
     {
-        [Route("Project/JobActivation/Checklist/{PRJID}")]
+        [Route("Project/Checklist/{PRJID}")]
         public ActionResult JobChecklist(string PRJID)
         {
             int ProjectHeaderID = 0;
@@ -27,6 +27,7 @@ namespace AtlasForms.Controllers
                     model.PRJID = ProjectHeaderID;
                     model = ChecklistDal.getProjectActivationDetails(model);
                     LoadActivationLookup(model);
+                    ViewBag.ChecklistPrint = model.recordExists;
                 }
 
                 return View("index",model);
@@ -38,8 +39,11 @@ namespace AtlasForms.Controllers
         }
 
         [HttpPost]
+        [Route("Checklist/SaveActivation")]
         public ActionResult SaveActivation(JobActivationChecklist model)
         {
+            string errors = String.Empty;
+
             try
             {
                 if (ModelState.IsValid)
@@ -54,8 +58,12 @@ namespace AtlasForms.Controllers
                         return View("index", model);
                     }
                 }
+                else
+                {
+                    errors = GetModelError(errors);
+                }
                 LoadActivationLookup(model);
-                return View(model);
+                return View("index",model);
             }
             catch (Exception ex)
             {
@@ -63,6 +71,19 @@ namespace AtlasForms.Controllers
                 LoadActivationLookup(model);
                 return View(model);
             }
+        }
+
+        private string GetModelError(string errors)
+        {
+            foreach (ModelState modelState in ViewData.ModelState.Values)
+            {
+                foreach (ModelError error in modelState.Errors)
+                {
+                    errors += error.ErrorMessage;
+                }
+            }
+
+            return errors;
         }
 
         public void LoadActivationLookup(JobActivationChecklist model)
@@ -117,6 +138,14 @@ namespace AtlasForms.Controllers
 
             });
             ViewBag.ListResponses = ListResponses;
+
+            IEnumerable<SelectListItem> ListUser = model.ListUsers.Select(c => new SelectListItem
+            {
+                Value = Convert.ToString(c.UserId),
+                Text = c.Name
+
+            });
+            ViewBag.ListUser = ListUser;
         }
     }
 }

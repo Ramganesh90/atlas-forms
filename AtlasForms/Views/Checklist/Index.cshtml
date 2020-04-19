@@ -18,6 +18,7 @@
         <hr />
         <div class="row">
             <h4 style="display:inline-block;margin:15px 0 0 32px">@ViewBag.Title</h4>
+            
             <button type="button" class="btn btn-primary btn-sm pull-right" id="print" style="margin-right: 30px;">
                 Print <span class="glyphicon glyphicon-print white"></span>
             </button>
@@ -442,11 +443,14 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.ApprovedBy, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
                     <div class="col-md-2">
+                        @Html.DropDownListFor(model => model.ApprovedBy, new SelectList(ViewBag.ListUser, "Value", "Text"),
+                            "-Select-", new { @style = "font-size:12pt;width:100%", @class = "safety-field" })
                         @Html.ValidationMessageFor(model => model.ApprovedBy, "", new { @class = "text-danger" })
                     </div>
 
                     @Html.LabelFor(model => model.DateReviewed, htmlAttributes: new { @class = "control-label col-md-4 project-labels" })
                     <div class="col-md-2">
+                        @Html.EditorFor(model => model.DateReviewed, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.DateReviewed, "", new { @class = "text-danger" })
                     </div>
 
@@ -457,6 +461,25 @@
         <div class="form-group">
             <div class="pull-right">
                 <input type="submit" value="Save Activation" id="btnSaveActivation" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalAlertWindow" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Alert</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"> </span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Successfully Saved Job Activation Checklist Details!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-sm" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -494,6 +517,7 @@
             $(".project-info").attr('readonly', 'readonly');
             $(".project-info").css("background-color", "#f1f1f1");
             $("#projectInformation_CustomerProfile_PhoneNumber, #projectInformation_ProjectProfile_PhoneNumber").inputmask({ "mask": "(999) 999-9999" });
+            $("#print").hide();
 
             $("#frmJobCheckList").on('submit', function () {
 
@@ -510,7 +534,6 @@
                     }
                 });
                 return (errorCount == 0);
-                //$("#frmJobCheckList").submit();
             });
 
             $(".safety-comments").change(function () {
@@ -523,6 +546,20 @@
                 window.open(baseUrl() + 'Report/JobActivation/id/' + $("#PRJID").val());
             });
         });
+
+       
+        $(document).ready(function () {
+
+            if ($("#PRJID").val() )
+            {
+                $("#print").show();
+                if (location.pathname.toLocaleLowerCase().includes("save")) {
+                    $('#modalAlertWindow').modal('show');
+
+                }
+            }
+        });
+
 
     </script>
 }
