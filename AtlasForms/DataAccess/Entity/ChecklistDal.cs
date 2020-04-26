@@ -162,6 +162,11 @@ namespace AtlasForms.DataAccess.Entity
                     objActivation.projectInformation.ProjectProfile.ContactName = Convert.ToString(item["JobContact"]);
                     objActivation.projectInformation.Estimator = Convert.ToString(item["EstimatorsName"]);
                 }
+
+                if(resultSet.Tables[5].Rows.Count == 0)
+                {
+                    objActivation.PRJID = 0;
+                }
             }
             catch (Exception ex)
             {
@@ -185,7 +190,7 @@ namespace AtlasForms.DataAccess.Entity
                 objActivation.otherImportantFactors = new OtherImportantFactors();
                 foreach (DataRow item in resultSet.Tables[0].Rows)
                 {
-                    objActivation.recordExists = true;
+                    objActivation.recordExists = new Guid().ToString();
                     objActivation.projectInformation.CustomerType = Convert.ToString(item["CustomerTypeID"]);
                     objActivation.projectInformation.Jobtype = Convert.ToString(item["JobTypeId"]);
 
@@ -253,7 +258,7 @@ namespace AtlasForms.DataAccess.Entity
             }
             catch (Exception ex)
             {
-                objActivation.recordExists = false;
+                objActivation.recordExists = string.Empty;
                 Logger.SaveErr(ex);
             }
             return objActivation;

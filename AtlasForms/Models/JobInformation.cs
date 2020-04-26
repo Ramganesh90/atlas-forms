@@ -41,7 +41,9 @@ namespace AtlasForms.Models
         [Display(Name = "Contact Phone")]
         public string JobPhone { get; set; }
 
+
         [Display(Name = "Call In Route")]
+        [Required(ErrorMessage = "Call In Route is Required")]
         public string CallInRoute { get; set; }
 
         //TODO

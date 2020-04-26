@@ -24,7 +24,7 @@ namespace AtlasForms.Models
         [Display(Name = "Date Reviewed")]
         public string DateReviewed { get; set; }
 
-        public bool recordExists { get; set; }
+        public string recordExists { get; set; }
 
         public List<SYS10_MhRates> ListLabourTypes { get; set; }
 
@@ -37,8 +37,9 @@ namespace AtlasForms.Models
     public class ProjectInformation
     {
         [Display(Name = "Atlas Job Number")]
+        [Required(ErrorMessage = "Atlas Job Number is Required")]
         public string JobNumber { get; set; }
-        [Display(Name = " Atlas Company Name")]
+        [Display(Name = "Atlas Company Name")]
         public string CompanyName { get; set; }
         public Profile CustomerProfile { get; set; }
         public Profile ProjectProfile { get; set; }
@@ -48,7 +49,7 @@ namespace AtlasForms.Models
         [Display(Name = "Job Type")]
         [Required(ErrorMessage = "Job Type is Required")]
         public string Jobtype { get; set; }
-        [Display(Name = " Customer Bid/Job Reference #")]
+        [Display(Name = "Customer Bid/Job Reference #")]        
         public string CustomerBidReference { get; set; }
         [Display(Name = "Scope of Work to be performed")]
         [Required(ErrorMessage = "Scope of Work is Required")]
@@ -152,7 +153,7 @@ namespace AtlasForms.Models
         [Display(Name = "Comments")]
         public string EquipmentCertificationComments { get; set; }
         [Display(Name = "Other hazards (water, lane closure, dust/respirator, HEPA, vacuum, heavy lifting)")]
-        [Required(ErrorMessage = "Other Hazards is Required")]
+        [Required(ErrorMessage = "Other hazards is Required")]
         public string OtherHazards { get; set; }
         [Display(Name = "Comments")]
         public string OtherHazardsComments { get; set; }
@@ -161,7 +162,6 @@ namespace AtlasForms.Models
     public class OtherImportantFactors
     {
         [Display(Name = "Please fill in any other pertinant information")]
-        [Required(ErrorMessage = "Other Comments is Required")]
         public string OtherPertinentInformation { get; set; }
 
     }

@@ -18,6 +18,7 @@ namespace AtlasForms.Models
         public string PrimaryPhone { get; set; }
 
         [Display(Name = "FenceType")]
+        [Required(ErrorMessage = "Fence Type is Required")]
         public string FenceType { get; set; }
 
         [Display(Name = "Special Notes")]

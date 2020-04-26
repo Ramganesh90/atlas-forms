@@ -1,0 +1,664 @@
+﻿@model AtlasForms.Models.HardCard
+
+@{
+    ViewBag.Title = "Job Card";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2 class="text-center">Atlas Residential & Commerical Services LLC</h2>
+<br />
+
+
+
+@using (Html.BeginForm("saveJobDetails", "HardCard", FormMethod.Post, new { id = "frmHardCard" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        <div class="row">
+            <h4 style="display:inline-block;margin:15px 0 0 32px">@ViewBag.Title</h4>
+
+            <button type="button" class="btn btn-primary btn-sm pull-right" id="print" style="margin-right: 30px;">
+                Print <span class="glyphicon glyphicon-print white"></span>
+            </button>
+        </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div id="hardcard-form" class="panel-group">
+                
+
+                <div class="panel panel-primary" style="margin:15px">
+                    <div class="panel-heading-active" style="padding:5px">Job Information</div>
+                    <div class="panel-body col-md-10">
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.JobInformationDetails.EstimatorsName, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.JobInformationDetails.EstimatorsName, new { htmlAttributes = new { @class = "form-control info-field" } })
+                                    @Html.ValidationMessageFor(model => model.JobInformationDetails.EstimatorsName, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.JobInformationDetails.Atlas_Job_Number, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-3">
+                                    @Html.EditorFor(model => model.JobInformationDetails.Atlas_Job_Number, new { htmlAttributes = new { @class = "form-control info-field" } })
+                                    @Html.ValidationMessageFor(model => model.JobInformationDetails.Atlas_Job_Number, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.JobInformationDetails.ContractPhoneNumber, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.JobInformationDetails.ContractPhoneNumber, new { htmlAttributes = new { @class = "form-control phone-type info-field" } })
+                                    @Html.ValidationMessageFor(model => model.JobInformationDetails.ContractPhoneNumber, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.JobInformationDetails.BidItemHeaderId, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-3">
+                                    @Html.EditorFor(model => model.JobInformationDetails.BidItemHeaderId, new { htmlAttributes = new { @class = "form-control info-field" } })
+                                    @Html.ValidationMessageFor(model => model.JobInformationDetails.BidItemHeaderId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.JobInformationDetails.JobName, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.JobInformationDetails.JobName, new { htmlAttributes = new { @class = "form-control info-field" } })
+                                    @Html.ValidationMessageFor(model => model.JobInformationDetails.JobName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.JobInformationDetails.JobAddress, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.JobInformationDetails.JobAddress, new { htmlAttributes = new { @class = "form-control info-field" } })
+                                    @Html.ValidationMessageFor(model => model.JobInformationDetails.JobAddress, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.JobInformationDetails.JobCity, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.JobInformationDetails.JobCity, new { htmlAttributes = new { @class = "form-control info-field" } })
+                                    @Html.ValidationMessageFor(model => model.JobInformationDetails.JobCity, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.JobInformationDetails.JobState, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-3">
+                                    @Html.EditorFor(model => model.JobInformationDetails.JobState, new { htmlAttributes = new { @class = "form-control info-field" } })
+                                    @Html.ValidationMessageFor(model => model.JobInformationDetails.JobState, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.JobInformationDetails.JobContact, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.JobInformationDetails.JobContact, new { htmlAttributes = new { @class = "form-control info-field" } })
+                                    @Html.ValidationMessageFor(model => model.JobInformationDetails.JobContact, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.JobInformationDetails.CallInRoute, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-3">
+                                    @Html.DropDownListFor(model=> model.JobInformationDetails.CallInRoute, new SelectList(ViewBag.ListJobInfoResponse, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.JobInformationDetails.CallInRoute, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.JobInformationDetails.JobPhone, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.JobInformationDetails.JobPhone, new { htmlAttributes = new { @class = "form-control phone-type info-field" } })
+                                    @Html.ValidationMessageFor(model => model.JobInformationDetails.JobPhone, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.JobInformationDetails.JobCell, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-3">
+                                    @Html.EditorFor(model => model.JobInformationDetails.JobCell, new { htmlAttributes = new { @class = "form-control phone-type info-field" } })
+                                    @Html.ValidationMessageFor(model => model.JobInformationDetails.JobCell, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="panel panel-primary" style="margin:15px">
+                    <div class="panel-heading-active" style="padding:5px">Contractor Information</div>
+                    <div class="panel-body col-md-10">
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ContractInformationDetails.ContractorName, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.ContractInformationDetails.ContractorName, new { htmlAttributes = new { @class = "form-control info-field" } })
+                                    @Html.ValidationMessageFor(model => model.ContractInformationDetails.ContractorName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ContractInformationDetails.PrimaryContact, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.ContractInformationDetails.PrimaryContact, new { htmlAttributes = new { @class = "form-control info-field" } })
+                                    @Html.ValidationMessageFor(model => model.ContractInformationDetails.PrimaryContact, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.ContractInformationDetails.PrimaryPhone, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-3">
+                                    @Html.EditorFor(model => model.ContractInformationDetails.PrimaryPhone, new { htmlAttributes = new { @class = "form-control phone-type info-field" } })
+                                    @Html.ValidationMessageFor(model => model.ContractInformationDetails.PrimaryPhone, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ContractInformationDetails.FenceType, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(model => model.ContractInformationDetails.FenceType, new SelectList(ViewBag.ListFenceTypes, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control info-field" })
+                                    @Html.ValidationMessageFor(model => model.ContractInformationDetails.FenceType, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ContractInformationDetails.SplNotes, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-4">
+                                    @Html.TextAreaFor(model => model.ContractInformationDetails.SplNotes,new { @class = "form-control", @rows = 3 })
+                                    @Html.ValidationMessageFor(model => model.ContractInformationDetails.SplNotes, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.ContractInformationDetails.Directions, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-3">
+                                    @Html.TextAreaFor(model => model.ContractInformationDetails.Directions, new { @class = "form-control", @rows = 3 })
+                                    @Html.ValidationMessageFor(model => model.ContractInformationDetails.Directions, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+                <div class="panel panel-primary" style="margin:15px">
+                    <div class="panel-heading-active" style="padding:5px">Installation</div>
+                    <div class="panel-body col-md-10">
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.InstallationDetails.PremakeGate, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-2">
+                                    @Html.DropDownListFor(model => model.InstallationDetails.PremakeGate, new SelectList(ViewBag.ListInstallationResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.PremakeGate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.InstallationDetails.CBYD, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-2">
+                                    @Html.DropDownListFor(model => model.InstallationDetails.CBYD, new SelectList(ViewBag.ListInstallationResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.CBYD, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.InstallationDetails.CBYDDate, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-2">
+                                    @Html.EditorFor(model => model.InstallationDetails.CBYDDate, new { htmlAttributes = new { @class = "form-control date-type" } })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.CBYDDate, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.InstallationDetails.CBYDNumber, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-2">
+                                    @Html.EditorFor(model => model.InstallationDetails.CBYDNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.CBYDNumber, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.InstallationDetails.StartDate, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-2">
+                                    @Html.EditorFor(model => model.InstallationDetails.StartDate, new { htmlAttributes = new { @class = "form-control date-type" } })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.StartDate, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.InstallationDetails.FinishDate, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-2">
+                                    @Html.EditorFor(model => model.InstallationDetails.FinishDate, new { htmlAttributes = new { @class = "form-control date-type" } })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.FinishDate, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.InstallationDetails.HardDate, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-2">
+                                    @Html.EditorFor(model => model.InstallationDetails.HardDate, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.HardDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.InstallationDetails.GateDescription1, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-3">
+                                    @Html.EditorFor(model => model.InstallationDetails.GateDescription1, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.GateDescription1, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.InstallationDetails.GateInstallationID1, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-5">
+                                    @Html.DropDownListFor(model => model.InstallationDetails.GateInstallationID1, new SelectList(ViewBag.ListGateInstallation, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.GateInstallationID1, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.InstallationDetails.GateDescription2, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-3">
+                                    @Html.EditorFor(model => model.InstallationDetails.GateDescription2, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.GateDescription2, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.InstallationDetails.GateInstallationID2, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-5">
+                                    @Html.DropDownListFor(model => model.InstallationDetails.GateInstallationID2, new SelectList(ViewBag.ListGateInstallation, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.GateInstallationID2, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.InstallationDetails.GateDescription3, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-3">
+                                    @Html.EditorFor(model => model.InstallationDetails.GateDescription3, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.GateDescription3, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.InstallationDetails.GateInstallationID3, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-5">
+                                    @Html.DropDownListFor(model => model.InstallationDetails.GateInstallationID3, new SelectList(ViewBag.ListGateInstallation, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.GateInstallationID3, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.InstallationDetails.GateDescription4, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-3">
+                                    @Html.EditorFor(model => model.InstallationDetails.GateDescription4, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.GateDescription4, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.InstallationDetails.GateInstallationID4, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-5">
+                                    @Html.DropDownListFor(model => model.InstallationDetails.GateInstallationID4, new SelectList(ViewBag.ListGateInstallation, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.GateInstallationID4, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.InstallationDetails.GateDescription5, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-3">
+                                    @Html.EditorFor(model => model.InstallationDetails.GateDescription5, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.GateDescription5, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.InstallationDetails.GateInstallationID5, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-5">
+                                    @Html.DropDownListFor(model => model.InstallationDetails.GateInstallationID5, new SelectList(ViewBag.ListGateInstallation, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.GateInstallationID5, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.InstallationDetails.EquipmentRequired, htmlAttributes: new { @class = "control-label col-md-2 project-labels", @style="padding-left:10px !important" })
+                               <div class="col-md-3">
+                                    @Html.DropDownListFor(model => model.InstallationDetails.EquipmentRequired, new SelectList(ViewBag.ListInstallationResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.EquipmentRequired, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.InstallationDetails.DigTypeID, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-3">
+                                    @Html.DropDownListFor(model => model.InstallationDetails.DigTypeID, new SelectList(ViewBag.ListDigType, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.DigTypeID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.InstallationDetails.WaterAvailible, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-3">
+                                    @Html.DropDownListFor(model => model.InstallationDetails.WaterAvailible, new SelectList(ViewBag.ListInstallationResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.WaterAvailible, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.InstallationDetails.ElectricityAvailible, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-3">
+                                    @Html.DropDownListFor(model => model.InstallationDetails.ElectricityAvailible, new SelectList(ViewBag.ListInstallationResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.ElectricityAvailible, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.InstallationDetails.MeasureByInstaller, htmlAttributes: new { @class = "control-label col-md-2 project-labels", @style = "padding-left:10px !important" })
+                                <div class="col-md-3">
+                                    @Html.DropDownListFor(model => model.InstallationDetails.MeasureByInstaller, new SelectList(ViewBag.ListInstallationResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.MeasureByInstaller, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.InstallationDetails.LeaveSamplesByInstaller, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-3"> 
+                                    @Html.DropDownListFor(model => model.InstallationDetails.LeaveSamplesByInstaller, new SelectList(ViewBag.ListInstallationResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.LeaveSamplesByInstaller, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.InstallationDetails.Scope, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-3">
+                                    @Html.TextAreaFor(model => model.InstallationDetails.Scope, new { @class = "form-control", @rows = 3 })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.Scope, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.InstallationDetails.BudgetedInstallDays, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-3">
+                                    @Html.EditorFor(model => model.InstallationDetails.BudgetedInstallDays, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.InstallationDetails.BudgetedInstallDays, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-primary" style="margin:15px">
+                <div class="panel-heading-active" style="padding:5px">Build Checklist</div>
+                <div class="panel-body col-md-10">
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BuildChecklistDetails.PoolCode, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.BuildChecklistDetails.PoolCode, new SelectList(ViewBag.ListBuildResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.PoolCode, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.BuildChecklistDetails.Dowelled, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.BuildChecklistDetails.Dowelled, new SelectList(ViewBag.ListBuildResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.Dowelled, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.BuildChecklistDetails.SafetyOfficerOnsite, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.BuildChecklistDetails.SafetyOfficerOnsite, new SelectList(ViewBag.ListBuildResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.SafetyOfficerOnsite, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BuildChecklistDetails.BuildForRack, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.BuildChecklistDetails.BuildForRack, new SelectList(ViewBag.ListBuildResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.BuildForRack, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.BuildChecklistDetails.Morticed, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.BuildChecklistDetails.Morticed, new SelectList(ViewBag.ListBuildResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.Morticed, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.BuildChecklistDetails.SafteyMeetingOrintationOnsiteReq, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.BuildChecklistDetails.SafteyMeetingOrintationOnsiteReq, new SelectList(ViewBag.ListBuildResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.SafteyMeetingOrintationOnsiteReq, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BuildChecklistDetails.SteppingTemp, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.BuildChecklistDetails.SteppingTemp, new SelectList(ViewBag.ListBuildResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.SteppingTemp, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.BuildChecklistDetails.NailOn, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.BuildChecklistDetails.NailOn, new SelectList(ViewBag.ListBuildResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.NailOn, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.BuildChecklistDetails.SafteyInspectionReqBeforeJobStarts, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.BuildChecklistDetails.SafteyInspectionReqBeforeJobStarts, new SelectList(ViewBag.ListBuildResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.SafteyInspectionReqBeforeJobStarts, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BuildChecklistDetails.FenceDirectionID, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.BuildChecklistDetails.FenceDirectionID, new SelectList(ViewBag.ListFenceDirection, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.FenceDirectionID, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.BuildChecklistDetails.SingleNailed, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.BuildChecklistDetails.SingleNailed, new SelectList(ViewBag.ListBuildResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.SingleNailed, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.BuildChecklistDetails.PPERequired, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.BuildChecklistDetails.PPERequired, new SelectList(ViewBag.ListBuildResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.PPERequired, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BuildChecklistDetails.FenceInstallID, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.BuildChecklistDetails.FenceInstallID, new SelectList(ViewBag.ListFenceInstall, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.FenceInstallID, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.BuildChecklistDetails.BuildFullSections, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.BuildChecklistDetails.BuildFullSections, new SelectList(ViewBag.ListBuildResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.BuildFullSections, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.BuildChecklistDetails.EquipmentOperatorCertsReq, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.BuildChecklistDetails.EquipmentOperatorCertsReq, new SelectList(ViewBag.ListBuildResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.EquipmentOperatorCertsReq, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.BuildChecklistDetails.TrimInField, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-2">
+                                    @Html.DropDownListFor(model => model.BuildChecklistDetails.TrimInField, new SelectList(ViewBag.ListBuildResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.BuildChecklistDetails.TrimInField, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.BuildChecklistDetails.Stain, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                                <div class="col-md-2">
+                                    @Html.DropDownListFor(model => model.BuildChecklistDetails.Stain, new SelectList(ViewBag.ListBuildResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.BuildChecklistDetails.Stain, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                         </div>
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BuildChecklistDetails.PostPins, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.BuildChecklistDetails.PostPins, new SelectList(ViewBag.ListBuildResponses, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.PostPins, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.BuildChecklistDetails.StainColor, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.BuildChecklistDetails.StainColor, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.StainColor, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BuildChecklistDetails.TearOutTypeID, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.BuildChecklistDetails.TearOutTypeID, new SelectList(ViewBag.ListTearOutType, "Value", "Text"),
+                                        "-Select-", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.TearOutTypeID, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.BuildChecklistDetails.StainBrand, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.BuildChecklistDetails.StainBrand, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.StainBrand, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BuildChecklistDetails.OtherHazards, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-6">
+                                @Html.TextAreaFor(model => model.BuildChecklistDetails.OtherHazards, new { @class = "form-control" , @rows =5, @cols = 80})
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.OtherHazards, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BuildChecklistDetails.Notes, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
+                            <div class="col-md-6">
+                                @Html.TextAreaFor(model => model.BuildChecklistDetails.Notes, new { @class = "form-control", @rows = 5, @cols = 80 })
+                                @Html.ValidationMessageFor(model => model.BuildChecklistDetails.Notes, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <input type="hidden" name="HardCardId" id="HardCardId" value="@Model.HardCardId" />
+                            <input type="hidden" name="ProjectHeaderId" id="ProjectHeaderId" value="@Model.ProjectHeaderId" />
+                            <input type="hidden" name="BidItemHeaderid" id="BidItemHeaderid" value="@Model.BidItemHeaderid" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal fade" id="modalAlertWindow" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Alert</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"> </span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                         Successfully Saved Job Information Details!
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success btn-sm" data-dismiss="modal">Close</button> 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="pull-right col-md-pull-2">
+                <input type="submit" value="Save Job" id="btnSaveJobDtails" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+    }
+
+    <style>
+        input, select, textarea {
+            border: 1px solid #808080 !important;
+        }
+    </style>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" type="text/css" rel="stylesheet" />
+        <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
+
+        <script>
+            $(function () {
+                $('.date-type').datepicker({
+                    startDate: new Date(),
+                    todayHighlight: true,
+                    todayBtn: 'linked',
+                    orientation: 'bottom right',
+                    format: 'mm/dd/yyyy',
+                    autoclose: true
+                });
+                var baseUrl = function () {
+                    var href = window.location.href.split('/');
+                    return href[0] + '//' + href[2] + '/' + href[3] + '/';
+                }
+                $(".phone-type").inputmask({ "mask": "(999) 999-9999" });
+
+                $(".info-field").attr('readonly', 'readonly');
+                $(".info-field").css("background-color", "#f1f1f1");
+                $("#print").hide();
+                $("#print").click(function () {
+                    window.open(baseUrl() + 'Report/JobHardDetails/id/' + $("#HardCardId").val());
+                });
+            });
+
+            function IsValidNo(val) {
+                if (val) {
+                    return parseInt(val) !=0 && Number.isInteger(parseInt(val));
+                }
+                else {
+                    return false;
+                }
+            }
+
+            $(document).ready(function () {
+
+                if (IsValidNo($("#HardCardId").val())) {
+                    $("#print").show();
+                    if (location.pathname.toLocaleLowerCase().includes("save")) {
+                        $('#modalAlertWindow').modal('show');
+
+                    }
+                }
+
+           
+                if (!IsValidNo($("#ProjectHeaderId").val()) || !IsValidNo($("#BidItemHeaderid").val())) {
+                    $("#btnSaveJobDtails").attr("disabled", "disabled");
+                        $(".modal-body").html("<span>Project/Bid Item doesn't have valid job information. Please contact admin<span>");
+                        $('#modalAlertWindow').modal('show');
+                }
+                
+
+            });
+
+        </script>
+    }

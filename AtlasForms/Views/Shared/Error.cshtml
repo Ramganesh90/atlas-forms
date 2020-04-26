@@ -5,9 +5,22 @@
     <title>Error</title>
 </head>
 <body>
-    <hgroup>
-        <h1>Error.</h1>
-        <h2>Request cannot be proceeded. Please contact admin! </h2>
-    </hgroup>
+    <div class="container">
+        <h1>Error</h1>
+
+        @model System.Web.Mvc.HandleErrorInfo
+
+        @if (Model != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only"></span>
+                Error Occurred While Processing the Request. Please contact admin!
+            </div>
+            <p class="bg-danger"> </p>
+
+        }
+
+    </div>
 </body>
-</html>
+</html> 

@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace AtlasForms.DataAccess.Entity
 {
@@ -24,12 +25,11 @@ namespace AtlasForms.DataAccess.Entity
         {
             try
             {
-                
-
 
                 var resultSet = SqlHelper.ExecuteDataset(_myConnection, CommandType.StoredProcedure,
                                      "spATL_PRJ_HardCard_LkUp",
-                                     new SqlParameter("@PRJID", objHardCard.ProjectHeaderId));
+                                     new SqlParameter("@PRJID", objHardCard.ProjectHeaderId),
+                                      new SqlParameter("@BIDID", objHardCard.BidItemHeaderid));
 
                 if (objHardCard.JobInformationDetails == null)
                 {
@@ -52,7 +52,11 @@ namespace AtlasForms.DataAccess.Entity
                 {
                     var item = resultSet.Tables[0].Rows[0];
 
+                    objHardCard.ProjectHeaderId = Convert.ToInt32(item["ProjectHeaderId"]);
+
                     objHardCard.JobInformationDetails.EstimatorsName = Convert.ToString(item["EstimatorsName"]);
+                    objHardCard.JobInformationDetails.Atlas_Job_Number = Convert.ToString(item["Atlas_Job_Number"]);
+
                     objHardCard.JobInformationDetails.ContractPhoneNumber = Convert.ToString(item["ContractPhoneNumber"]);
                     objHardCard.JobInformationDetails.JobName = Convert.ToString(item["JobName"]);
                     objHardCard.JobInformationDetails.JobAddress = Convert.ToString(item["JobAddress"]);
@@ -61,22 +65,31 @@ namespace AtlasForms.DataAccess.Entity
                     objHardCard.JobInformationDetails.JobZip = Convert.ToString(item["JobZip"]);
                     objHardCard.JobInformationDetails.JobContact = Convert.ToString(item["JobContact"]);
                     objHardCard.JobInformationDetails.JobPhone = Convert.ToString(item["JobPhone"]);
-                    objHardCard.JobInformationDetails.Atlas_Job_Number = Convert.ToString(item["ProjectHeaderId"]);
-                    objHardCard.JobInformationDetails.BidItemHeaderId = Convert.ToInt32(item["BidItemHeaderId"]);
-                    objHardCard.JobInformationDetails.ListJobInfoResponse = new List<DOC10_Responses>();
-                    objHardCard.JobInformationDetails.ListJobInfoResponse = getResponseList(resultSet);
-                }
-                if (resultSet.Tables[0].Rows.Count > 0)
-                {
-                    var item = resultSet.Tables[0].Rows[0];
                     objHardCard.ContractInformationDetails.ContractorName = Convert.ToString(item["ContName"]);
                     objHardCard.ContractInformationDetails.PrimaryContact = Convert.ToString(item["ContContact"]);
-                    objHardCard.ContractInformationDetails.PrimaryPhone = Convert.ToString(item["ContPhone"]);
-                    objHardCard.ContractInformationDetails.ListFenceTypes = new List<SYS07_FenceTypes>();
-                    objHardCard.ContractInformationDetails.ListFenceTypes = getFenceTypes(resultSet);
+                    objHardCard.ContractInformationDetails.PrimaryPhone = Convert.ToString(item["ContMobile"]);
+                   
+                }
+                objHardCard.JobInformationDetails.ListJobInfoResponse = new List<DOC10_Responses>();
+                objHardCard.JobInformationDetails.ListJobInfoResponse = getResponseList(resultSet);
+                if (resultSet.Tables[1].Rows.Count > 0)
+                {
+                    var item = resultSet.Tables[1].Rows[0];
+                    objHardCard.JobInformationDetails.BidItemHeaderId = Convert.ToInt32(item["BidItemHeaderId"]);
+
+                    objHardCard.ContractInformationDetails.FenceType = Convert.ToString(item["FenceTypeId"]);
+                    
 
                 }
 
+                if(resultSet.Tables[0].Rows.Count == 0 || resultSet.Tables[1].Rows.Count == 0) 
+                {
+                    objHardCard.BidItemHeaderid = 0;
+                    objHardCard.ProjectHeaderId = 0;
+                }
+
+                objHardCard.ContractInformationDetails.ListFenceTypes = new List<SYS07_FenceTypes>();
+                objHardCard.ContractInformationDetails.ListFenceTypes = getFenceTypes(resultSet);
 
                 objHardCard.InstallationDetails.ListInstallationResponses = new List<DOC10_Responses>();
                 objHardCard.InstallationDetails.ListInstallationResponses = getResponseList(resultSet);
@@ -102,7 +115,7 @@ namespace AtlasForms.DataAccess.Entity
                 return objHardCard;
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.SaveErr(ex);
                 return objHardCard;
@@ -114,27 +127,28 @@ namespace AtlasForms.DataAccess.Entity
             var resultSet = SqlHelper.ExecuteDataset(_myConnection, CommandType.StoredProcedure,
                                      "spATL_PRJ_HardCard_GetDtls",
                                      new SqlParameter("@HardCardID", model.HardCardId)).Tables[0];
-           if(resultSet.Rows.Count > 0)
+            if (resultSet.Rows.Count > 0)
             {
                 var rowItem = resultSet.Rows[0];
                 model.ProjectHeaderId = Convert.ToInt32(rowItem["ProjectHeaderId"]);
-                if(model.JobInformationDetails == null)
+                model.BidItemHeaderid = Convert.ToInt32(rowItem["BidItemHeaderId"]);
+                if (model.JobInformationDetails == null)
                 {
                     model.JobInformationDetails = new JobInformation();
                 }
-                if(model.ContractInformationDetails == null)
+                if (model.ContractInformationDetails == null)
                 {
                     model.ContractInformationDetails = new ContractorInformation();
                 }
-                if(model.InstallationDetails == null)
+                if (model.InstallationDetails == null)
                 {
                     model.InstallationDetails = new Installation();
                 }
-                if(model.BuildChecklistDetails == null)
+                if (model.BuildChecklistDetails == null)
                 {
                     model.BuildChecklistDetails = new BuildChecklist();
                 }
-                model.JobInformationDetails.Atlas_Job_Number = Convert.ToString(rowItem["ProjectHeaderId"]);
+
                 model.JobInformationDetails.BidItemHeaderId = Convert.ToInt32(rowItem["BidItemHeaderId"]);
                 model.JobInformationDetails.CallInRoute = Convert.ToString(rowItem["CallInRoute"]);
                 model.ContractInformationDetails.FenceType = Convert.ToString(rowItem["FenceTypeId"]);
@@ -189,12 +203,12 @@ namespace AtlasForms.DataAccess.Entity
                 model.BuildChecklistDetails.EquipmentOperatorCertsReq = Convert.ToInt32(rowItem["EquipmentOperatorCertsReq"]);
                 model.BuildChecklistDetails.OtherHazards = Convert.ToString(rowItem["OtherHazards"]);
                 model.BuildChecklistDetails.Notes = Convert.ToString(rowItem["Notes"]);
-               
+
 
             }
 
-            
-         }
+
+        }
 
         internal static object saveJobDetails(HardCard model)
         {
@@ -203,7 +217,7 @@ namespace AtlasForms.DataAccess.Entity
             {
                 List<SqlParameter> parametersList = new List<SqlParameter>();
                 parametersList.Add(new SqlParameter("@HardCardID", model.HardCardId));
-                parametersList.Add(new SqlParameter("@ProjectHeaderId", model.JobInformationDetails.Atlas_Job_Number));
+                parametersList.Add(new SqlParameter("@ProjectHeaderId", model.ProjectHeaderId));
                 parametersList.Add(new SqlParameter("@BidItemHeaderId", model.JobInformationDetails.BidItemHeaderId));
                 parametersList.Add(new SqlParameter("@CallInRoute", model.JobInformationDetails.CallInRoute));
                 parametersList.Add(new SqlParameter("@FenceTypeId", model.ContractInformationDetails.FenceType));
@@ -261,7 +275,7 @@ namespace AtlasForms.DataAccess.Entity
 
                 var id = SqlHelper.ExecuteScalar(_myConnection, CommandType.StoredProcedure, "spATL_PRJ_HardCard_InsUpd",
                                      parametersList.ToArray());
-                result = (Convert.ToInt32(id) == -1) ? 1 : result;
+                result = (Convert.ToInt32(id) == -1) ? 1 : Convert.ToInt32(id);
             }
             catch (Exception ex)
             {
@@ -270,10 +284,41 @@ namespace AtlasForms.DataAccess.Entity
             return result;
         }
 
+        internal static List<string> getBidItems(string projectId)
+        {
+
+            var resultSet = SqlHelper.ExecuteDataset(_myConnection, CommandType.Text,
+                                 "select BidItemHeaderId, BidItemName,ProjectHeaderId from BID01_BidItemHeader where ProjectHeaderId = @PRJID",
+                                 new SqlParameter("@PRJID", projectId));
+            var biditemList = new List<string>();
+            if (resultSet.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow row in resultSet.Tables[0].Rows)
+                {
+                    biditemList.Add(Convert.ToString(row["BidItemHeaderId"]));
+                }
+            }
+            return biditemList;
+
+        }
+
+        internal static DataTable getHardCardItem(string projectId, string bidItemId)
+        {
+            var resultSet = SqlHelper.ExecuteDataset(_myConnection, CommandType.Text,
+                               "select * from DOC01_HardCard where ProjectHeaderId = @PRJID and BidItemHeaderId = @BIDID",
+                               new SqlParameter("@PRJID", projectId),
+                               new SqlParameter("@BIDID", bidItemId));
+
+
+
+            return resultSet.Tables[0];
+
+        }
+
         private static List<DOC10_Responses> getResponseList(DataSet resultSet)
         {
             List<DOC10_Responses> listResponse = new List<DOC10_Responses>();
-            foreach (DataRow item in resultSet.Tables[1].Rows)
+            foreach (DataRow item in resultSet.Tables[2].Rows)
             {
                 var response = new DOC10_Responses();
                 response.ResponseId = Convert.ToInt32(item["ResponseId"]);
@@ -281,11 +326,11 @@ namespace AtlasForms.DataAccess.Entity
                 listResponse.Add(response);
             }
             return listResponse;
-        } 
+        }
         private static List<SYS07_FenceTypes> getFenceTypes(DataSet resultSet)
         {
             List<SYS07_FenceTypes> ListFenceTypes = new List<SYS07_FenceTypes>();
-            foreach (DataRow item in resultSet.Tables[2].Rows)
+            foreach (DataRow item in resultSet.Tables[3].Rows)
             {
                 var fenceType = new SYS07_FenceTypes();
                 fenceType.FenceTypeId = Convert.ToInt32(item["FenceTypeId"]);
@@ -298,7 +343,7 @@ namespace AtlasForms.DataAccess.Entity
         private static List<SYS14_DigType> getDigTypes(DataSet resultSet)
         {
             List<SYS14_DigType> ListDigTypes = new List<SYS14_DigType>();
-            foreach (DataRow item in resultSet.Tables[3].Rows)
+            foreach (DataRow item in resultSet.Tables[4].Rows)
             {
                 var DigTypes = new SYS14_DigType();
                 DigTypes.DigTypeId = Convert.ToInt32(item["DigTypeId"]);
@@ -311,7 +356,7 @@ namespace AtlasForms.DataAccess.Entity
         private static List<DOC05_GateInstallation> getGateInstallation(DataSet resultSet)
         {
             List<DOC05_GateInstallation> ListGateInstallation = new List<DOC05_GateInstallation>();
-            foreach (DataRow item in resultSet.Tables[4].Rows)
+            foreach (DataRow item in resultSet.Tables[5].Rows)
             {
                 var gateInstallation = new DOC05_GateInstallation();
                 gateInstallation.GateInstallationID = Convert.ToInt32(item["GateInstallationID"]);
@@ -325,7 +370,7 @@ namespace AtlasForms.DataAccess.Entity
         private static List<DOC04_FenceDirection> getFenceDirections(DataSet resultSet)
         {
             List<DOC04_FenceDirection> ListFenceDirection = new List<DOC04_FenceDirection>();
-            foreach (DataRow item in resultSet.Tables[5].Rows)
+            foreach (DataRow item in resultSet.Tables[6].Rows)
             {
                 var fenceDirection = new DOC04_FenceDirection();
                 fenceDirection.FenceDirectionID = Convert.ToInt32(item["FenceDirectionID"]);
@@ -338,7 +383,7 @@ namespace AtlasForms.DataAccess.Entity
         private static List<DOC03_FenceInstall> getFenceInstalls(DataSet resultSet)
         {
             List<DOC03_FenceInstall> ListFenceInstall = new List<DOC03_FenceInstall>();
-            foreach (DataRow item in resultSet.Tables[6].Rows)
+            foreach (DataRow item in resultSet.Tables[7].Rows)
             {
                 var fenceInstall = new DOC03_FenceInstall();
                 fenceInstall.FenceInstallID = Convert.ToInt32(item["FenceInstallID"]);
@@ -351,7 +396,7 @@ namespace AtlasForms.DataAccess.Entity
         private static List<DOC06_TearOutTypes> getTearOutTypes(DataSet resultSet)
         {
             List<DOC06_TearOutTypes> ListTearOutTypes = new List<DOC06_TearOutTypes>();
-            foreach (DataRow item in resultSet.Tables[7].Rows)
+            foreach (DataRow item in resultSet.Tables[8].Rows)
             {
                 var tearoutType = new DOC06_TearOutTypes();
                 tearoutType.TearOutTypeID = Convert.ToInt32(item["TearOutTypeID"]);
@@ -360,6 +405,8 @@ namespace AtlasForms.DataAccess.Entity
             }
             return ListTearOutTypes;
         }
+
+       
     }
 }
 

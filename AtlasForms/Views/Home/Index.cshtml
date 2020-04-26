@@ -1,32 +1,16 @@
 ﻿@{
-    ViewBag.Title = "Error";
+    ViewBag.Title = "Home";
     ViewBag.message = "";
 }
 
 <h1>@ViewBag.Title</h1>
-<h4>Request cannot be processed. Please contact admin! </h4>
-<div id="error-info style="display:none">
-    <span>
-        More Details >>
-    </span>
-    <p style="display:none">
-        @ViewBag.message
-    </p>
-
-</div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-    var message = @ViewBag.message  ?? false;
+    <script>
+        
 
-    if(message)
-    {
-        $("span").click("on", function(){
-            $('p').show();
-        })
-    }
-</script>
-    }
+    </script>
+}

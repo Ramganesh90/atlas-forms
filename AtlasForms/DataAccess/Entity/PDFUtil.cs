@@ -26,8 +26,8 @@ namespace AtlasForms.DataAccess.Entity
             cell.Border = Rectangle.BOTTOM_BORDER | Rectangle.TOP_BORDER;
             cell.BorderWidthBottom = 3f;
             cell.BorderWidthTop = 3f;
-            cell.PaddingBottom = 8f;
-            cell.PaddingTop = 8f;
+            cell.PaddingBottom = 4f;
+            cell.PaddingTop = 4f;
             cell.HorizontalAlignment = align;
             return cell;
         }
@@ -75,7 +75,7 @@ namespace AtlasForms.DataAccess.Entity
             var HeaderTable = new PdfPTable(1);
             HeaderTable.HorizontalAlignment = 0;
             HeaderTable.WidthPercentage = 98;
-            HeaderTable.SpacingBefore = 10;
+            HeaderTable.SpacingBefore = 5;
             HeaderTable.SpacingAfter = 5;
             HeaderTable.DefaultCell.Border = 0;
             HeaderTable.SetWidths(new float[] { 1 });
@@ -85,8 +85,8 @@ namespace AtlasForms.DataAccess.Entity
             cell.Border = Rectangle.BOTTOM_BORDER | Rectangle.TOP_BORDER;
             cell.BorderWidthBottom = 1f;
             cell.BorderWidthTop = 1f;
-            cell.PaddingBottom = 8f;
-            cell.PaddingTop = 8f;
+            cell.PaddingBottom = 4f;
+            cell.PaddingTop = 1f;
             cell.HorizontalAlignment = Rectangle.ALIGN_LEFT;
 
             HeaderTable.AddCell(cell);

@@ -31,7 +31,8 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group">
                         <div class="col-md-4">
-                            @Html.HiddenFor(model => model.PRJID, new { htmlAttributes = new { @class = "form-control" } })
+                            <input type="hidden" name="PRJID" id="PRJID" value="@Model.PRJID" />
+                            <input type="hidden" name="recordExists" id="recordExists" value="@Model.recordExists" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -521,19 +522,6 @@
 
             $("#frmJobCheckList").on('submit', function () {
 
-                var ErrorComments = '<span class="text-danger field-validation-error"><span>Comments Required</span></span>';
-                var errorCount = 0;
-                $(".safety-field").each(function () {
-                    var commentsField = $(this).closest('.form-group').find('textarea');
-                    if (($(this).val() == 1) && (commentsField.val() == "")) {
-                        $(commentsField).after(ErrorComments);
-                        errorCount++;
-                    }
-                    else {
-                        $(this).closest('.form-group').find('textarea').after("");
-                    }
-                });
-                return (errorCount == 0);
             });
 
             $(".safety-comments").change(function () {
@@ -550,7 +538,7 @@
        
         $(document).ready(function () {
 
-            if ($("#PRJID").val() )
+            if (IsValidNo($("#PRJID").val()) && $("#recordExists").val())
             {
                 $("#print").show();
                 if (location.pathname.toLocaleLowerCase().includes("save")) {
@@ -558,6 +546,22 @@
 
                 }
             }
+
+            function IsValidNo(val) {
+                if (val) {
+                    return parseInt(val) != 0 && Number.isInteger(parseInt(val));
+                }
+                else {
+                    return false;
+                }
+            }
+
+            if (!IsValidNo($("#PRJID").val())) {
+                $("#btnSaveActivation").attr("disabled", "disabled");
+                $(".modal-body").html("<span>Project Item doesn't have valid job information. Please contact admin<span>");
+                $('#modalAlertWindow').modal('show');
+            }
+
         });
 
 

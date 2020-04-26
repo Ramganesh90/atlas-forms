@@ -132,6 +132,7 @@
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="DataAccess\Entity\AppUtil.cs" />
     <Compile Include="DataAccess\Entity\ChecklistDal.cs" />
+    <Compile Include="DataAccess\Entity\CustomErrorHandlerAttribute.cs" />
     <Compile Include="DataAccess\Entity\HardCardDal.cs" />
     <Compile Include="DataAccess\Entity\PDFUtil.cs" />
     <Compile Include="DataAccess\Entity\PDFReportEventHelper.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Models\DOC03_FenceInstall.cs" />
     <Compile Include="Models\DOC04_FenceDirection.cs" />
     <Compile Include="Models\Installation.cs" />
+    <Compile Include="Models\ProjectBidViewModel.cs" />
     <Compile Include="Models\SYS07_FenceTypes.cs" />
     <Compile Include="Models\JobActivationChecklist.cs" />
     <Compile Include="Global.asax.cs">
@@ -208,6 +210,7 @@
     <Content Include="Views\Checklist\Index.cshtml" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <Content Include="Views\HardCard\create.cshtml" />
     <Content Include="Views\HardCard\index.cshtml" />
   </ItemGroup>
   <ItemGroup>

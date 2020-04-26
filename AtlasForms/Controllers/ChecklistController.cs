@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace AtlasForms.Controllers
 {
+    [HandleError(View = "error")]
     public class ChecklistController : Controller
     {
         [Route("Project/Checklist/{PRJID}")]
@@ -27,14 +28,13 @@ namespace AtlasForms.Controllers
                     model.PRJID = ProjectHeaderID;
                     model = ChecklistDal.getProjectActivationDetails(model);
                     LoadActivationLookup(model);
-                    ViewBag.ChecklistPrint = model.recordExists;
                 }
 
                 return View("index",model);
             }
             else
             {
-                return RedirectToAction("index", "home");
+                return RedirectToAction("error",new Exception("Data Not Found"));
             }
         }
 
@@ -52,7 +52,7 @@ namespace AtlasForms.Controllers
                     if (result > 0)
                     {
                         Session["PRJID"] = model.PRJID;
-
+                        model.recordExists = new Guid().ToString();
                         LoadActivationLookup(model);
 
                         return View("index", model);
@@ -147,5 +147,6 @@ namespace AtlasForms.Controllers
             });
             ViewBag.ListUser = ListUser;
         }
+
     }
 }
