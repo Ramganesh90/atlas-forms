@@ -156,10 +156,10 @@ namespace AtlasForms.DataAccess.Entity
                 model.ContractInformationDetails.Directions = Convert.ToString(rowItem["LocationDirections"]);
                 model.InstallationDetails.PremakeGate = Convert.ToInt32(rowItem["PremakeGate"]);
                 model.InstallationDetails.CBYD = Convert.ToInt32(rowItem["CBYD"]);
-                model.InstallationDetails.CBYDDate = Convert.ToDateTime(rowItem["CBYDDate"]).ToShortDateString();
+                model.InstallationDetails.CBYDDate = rowItem["CBYDDate"]  !=DBNull.Value ? Convert.ToDateTime(rowItem["CBYDDate"]).ToShortDateString() : "";
                 model.InstallationDetails.CBYDNumber = Convert.ToString(rowItem["CBYDNumber"]);
-                model.InstallationDetails.StartDate = Convert.ToDateTime(rowItem["StartDate"]).ToShortDateString();
-                model.InstallationDetails.FinishDate = Convert.ToDateTime(rowItem["FinishDate"]).ToShortDateString();
+                model.InstallationDetails.StartDate = rowItem["StartDate"] != DBNull.Value ? Convert.ToDateTime(rowItem["StartDate"]).ToShortDateString() : "";
+                model.InstallationDetails.FinishDate = rowItem["FinishDate"] != DBNull.Value ? Convert.ToDateTime(rowItem["FinishDate"]).ToShortDateString() : "";
                 model.InstallationDetails.HardDate = Convert.ToInt32(rowItem["HardDate"]);
                 model.InstallationDetails.GateDescription1 = Convert.ToString(rowItem["GateDescription1"]);
                 model.InstallationDetails.GateInstallationID1 = Convert.ToInt32(rowItem["GateInstallationID1"]);

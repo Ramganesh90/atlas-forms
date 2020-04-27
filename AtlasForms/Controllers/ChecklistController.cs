@@ -69,7 +69,7 @@ namespace AtlasForms.Controllers
             {
                 ModelState.AddModelError(String.Empty, ex.Message + BusinessConstants.contactAdmin);
                 LoadActivationLookup(model);
-                return View(model);
+                return RedirectToAction("error");
             }
         }
 

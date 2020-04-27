@@ -29,7 +29,7 @@ namespace AtlasForms.Controllers
 
             // Set up the document and the MS to write it to and create the PDF writer instance
             MemoryStream ms = new MemoryStream();
-            Document document = new Document(PageSize.A4.Rotate(), 15, 15, 46, 42);
+            Document document = new Document(PageSize.A4, 5, 0, 45, 45);
             PdfWriter writer = PdfWriter.GetInstance(document, ms);
             writer.PageEvent = new PDFReportEventHelper(title);
 
@@ -105,7 +105,7 @@ namespace AtlasForms.Controllers
             ContractTable.SpacingAfter = 5;
             ContractTable.DefaultCell.Border = 0;
             ContractTable.DefaultCell.Padding = 30f;
-            ContractTable.SetWidths(new float[] { 3, 1, 1, 5 });
+            ContractTable.SetWidths(new float[] { 3, 1, 1.5f, 5 });
 
             ContractTable.AddCell(PDFUtil.CreateCell("Copy of Contract or PO", PDFUtil.font_body_bold, 2, false));
             ContractTable.AddCell(PDFUtil.CreateCell(model.ListResponses.
@@ -171,7 +171,7 @@ namespace AtlasForms.Controllers
             BondingTable.SpacingAfter = 5;
             BondingTable.DefaultCell.Border = 0;
             BondingTable.DefaultCell.Padding = 30f;
-            BondingTable.SetWidths(new float[] { 3, 1, 1, 5 });
+            BondingTable.SetWidths(new float[] { 3, 1, 1.5f, 5 });
 
             BondingTable.AddCell(PDFUtil.CreateCell("Received bond (if required) and necessary insurance certification", PDFUtil.font_body_bold, 2, false));
             BondingTable.AddCell(PDFUtil.CreateCell(model.ListResponses.
@@ -189,7 +189,7 @@ namespace AtlasForms.Controllers
             SafetyTable.SpacingAfter = 5;
             SafetyTable.DefaultCell.Border = 0;
             SafetyTable.DefaultCell.Padding = 30f;
-            SafetyTable.SetWidths(new float[] { 3, 1, 1, 5 });
+            SafetyTable.SetWidths(new float[] { 3, 1, 1.5f, 5 });
 
             SafetyTable.AddCell(PDFUtil.CreateCell("Is there a safety officer on site? If so, provide Contact Informatios there a safety officer on site? If so, provide Contact Information", PDFUtil.font_body_bold, 2, false));
             SafetyTable.AddCell(PDFUtil.CreateCell(model.ListResponses.
@@ -296,7 +296,7 @@ namespace AtlasForms.Controllers
 
             // Set up the document and the MS to write it to and create the PDF writer instance
             MemoryStream ms = new MemoryStream();
-            Document document = new Document(PageSize.A4.Rotate(), 15, 15, 46, 42);
+            Document document = new Document(PageSize.A4,5, 0,45,45);
             PdfWriter writer = PdfWriter.GetInstance(document, ms);
             writer.PageEvent = new PDFReportEventHelper(title);
 

@@ -11,7 +11,7 @@ namespace AtlasForms.DataAccess.Entity
     {
         public static BaseColor LightBlue = new BaseColor(14, 45, 76);
         public static BaseColor grey = new BaseColor(119, 119, 119);
-        public static iTextSharp.text.Font font_heading_1 = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 17, new BaseColor(14, 45, 76));
+        public static iTextSharp.text.Font font_heading_1 = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16, new BaseColor(14, 45, 76));
         public static iTextSharp.text.Font font_heading_2 = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 14, new BaseColor(14, 45, 76));
         public static iTextSharp.text.Font font_body = FontFactory.GetFont(FontFactory.HELVETICA, 10, new BaseColor(14, 45, 76));
         public static iTextSharp.text.Font font_body_bold = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 11, new BaseColor(14, 45, 76));

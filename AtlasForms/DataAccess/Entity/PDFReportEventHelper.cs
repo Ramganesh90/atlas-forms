@@ -31,7 +31,7 @@ namespace AtlasForms.DataAccess.Entity
             base.OnEndPage(writer, document);
             Rectangle pageSize = document.PageSize;
             PdfPTable table = new PdfPTable(1);
-            table.SetTotalWidth(new float[] { 800f });
+            table.SetTotalWidth(new float[] { 900f });
             table.LockedWidth = (true);
             PdfPCell cell;
             Paragraph header;
@@ -41,8 +41,9 @@ namespace AtlasForms.DataAccess.Entity
             header.Add(seperator);
             cell = new PdfPCell(header);
             cell.Border = Rectangle.NO_BORDER;
+            cell.HorizontalAlignment = 2;
             table.AddCell(cell);
-            table.WriteSelectedRows(0, -1, pageSize.GetLeft(15), pageSize.GetTop(15), writer.DirectContent);
+            table.WriteSelectedRows(0, -1, pageSize.GetLeft(0), pageSize.GetTop(15), writer.DirectContent);
 
         }
         public override void OnEndPage(PdfWriter writer, Document document)

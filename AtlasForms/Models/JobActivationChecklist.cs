@@ -20,6 +20,7 @@ namespace AtlasForms.Models
         [Required(ErrorMessage = "Approver is Required")]
         public string ApprovedBy { get; set; }
         [Display(Name = "Date Completed")]
+        [Required(ErrorMessage = "Date Completed is Required")]
         public string DateCompleted { get; set; }
         [Display(Name = "Date Reviewed")]
         public string DateReviewed { get; set; }
