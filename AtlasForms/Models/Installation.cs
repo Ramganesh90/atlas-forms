@@ -59,31 +59,31 @@ namespace AtlasForms.Models
         public string GateDescription1 { get; set; }
 
         [Display(Name = "Gate Installation")]
-        public int GateInstallationID1 { get; set; }
+        public string GateInstallationID1 { get; set; }
 
         [Display(Name = "Gate Description")]
         public string GateDescription2 { get; set; }
 
         [Display(Name = "Gate Installation")]
-        public int GateInstallationID2 { get; set; }
+        public string GateInstallationID2 { get; set; }
 
         [Display(Name = "Gate Description")]
         public string GateDescription3 { get; set; }
 
         [Display(Name = "Gate Installation")]
-        public int GateInstallationID3 { get; set; }
+        public string GateInstallationID3 { get; set; }
 
         [Display(Name = "Gate Description")]
         public string GateDescription4 { get; set; }
 
         [Display(Name = "Gate Installation")]
-        public int GateInstallationID4 { get; set; }
+        public string GateInstallationID4 { get; set; }
 
         [Display(Name = "Gate Description")]
         public string GateDescription5 { get; set; }
 
         [Display(Name = "Gate Installation")]
-        public int GateInstallationID5 { get; set; }
+        public string GateInstallationID5 { get; set; }
         
         [Display(Name = "Scope")]
         [Required(ErrorMessage = "Scope is Required")]

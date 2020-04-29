@@ -414,31 +414,31 @@ namespace AtlasForms.Controllers
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.GateDescription1, PDFUtil.spanNormalBlack));
             installDetails.AddCell(PDFUtil.CreateCell("Gate Installation", PDFUtil.font_body_bold, 2, false ));
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListGateInstallation.
-                First(i => i.GateInstallationID== model.InstallationDetails.GateInstallationID1).Description, PDFUtil.spanNormalBlack, colSpan: 3));
+                FirstOrDefault(i => i.GateInstallationID.ToString()== model.InstallationDetails.GateInstallationID1)?.Description, PDFUtil.spanNormalBlack, colSpan: 3));
 
             installDetails.AddCell(PDFUtil.CreateCell("Gate Description", PDFUtil.font_body_bold, 2, false));
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.GateDescription2, PDFUtil.spanNormalBlack));
             installDetails.AddCell(PDFUtil.CreateCell("Gate Installation", PDFUtil.font_body_bold, 2, false));
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListGateInstallation.
-                First(i => i.GateInstallationID == model.InstallationDetails.GateInstallationID2).Description, PDFUtil.spanNormalBlack, colSpan: 3));
+                FirstOrDefault(i => i.GateInstallationID.ToString() == model.InstallationDetails.GateInstallationID2)?.Description, PDFUtil.spanNormalBlack, colSpan: 3));
 
             installDetails.AddCell(PDFUtil.CreateCell("Gate Description", PDFUtil.font_body_bold, 2, false));
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.GateDescription3, PDFUtil.spanNormalBlack));
             installDetails.AddCell(PDFUtil.CreateCell("Gate Installation", PDFUtil.font_body_bold, 2, false));
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListGateInstallation.
-                First(i => i.GateInstallationID == model.InstallationDetails.GateInstallationID3).Description, PDFUtil.spanNormalBlack, colSpan: 3));
+                FirstOrDefault(i => i.GateInstallationID.ToString() == model.InstallationDetails.GateInstallationID3)?.Description, PDFUtil.spanNormalBlack, colSpan: 3));
 
             installDetails.AddCell(PDFUtil.CreateCell("Gate Description", PDFUtil.font_body_bold, 2, false));
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.GateDescription4, PDFUtil.spanNormalBlack));
             installDetails.AddCell(PDFUtil.CreateCell("Gate Installation", PDFUtil.font_body_bold, 2, false));
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListGateInstallation.
-                First(i => i.GateInstallationID == model.InstallationDetails.GateInstallationID4).Description, PDFUtil.spanNormalBlack, colSpan: 3));
+                FirstOrDefault(i => i.GateInstallationID.ToString() == model.InstallationDetails.GateInstallationID4)?.Description, PDFUtil.spanNormalBlack, colSpan: 3));
 
             installDetails.AddCell(PDFUtil.CreateCell("Gate Description", PDFUtil.font_body_bold, 2, false));
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.GateDescription5, PDFUtil.spanNormalBlack));
             installDetails.AddCell(PDFUtil.CreateCell("Gate Installation", PDFUtil.font_body_bold, 2, false));
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListGateInstallation.
-                First(i => i.GateInstallationID == model.InstallationDetails.GateInstallationID5).Description, PDFUtil.spanNormalBlack, colSpan: 3));
+                FirstOrDefault(i => i.GateInstallationID.ToString() == model.InstallationDetails.GateInstallationID5)?.Description, PDFUtil.spanNormalBlack, colSpan: 3));
 
 
             installDetails.AddCell(PDFUtil.CreateCell("Equipment Required", PDFUtil.font_body_bold, 2, false));

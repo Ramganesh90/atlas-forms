@@ -12,7 +12,6 @@ namespace AtlasForms.DataAccess.Entity
 {
     public class HardCardDal
     {
-        private static String exepurl;
         private static string _myConnection;
 
         static HardCardDal()
@@ -162,15 +161,15 @@ namespace AtlasForms.DataAccess.Entity
                 model.InstallationDetails.FinishDate = rowItem["FinishDate"] != DBNull.Value ? Convert.ToDateTime(rowItem["FinishDate"]).ToShortDateString() : "";
                 model.InstallationDetails.HardDate = Convert.ToInt32(rowItem["HardDate"]);
                 model.InstallationDetails.GateDescription1 = Convert.ToString(rowItem["GateDescription1"]);
-                model.InstallationDetails.GateInstallationID1 = Convert.ToInt32(rowItem["GateInstallationID1"]);
+                model.InstallationDetails.GateInstallationID1 = Convert.ToString(rowItem["GateInstallationID1"]);
                 model.InstallationDetails.GateDescription2 = Convert.ToString(rowItem["GateDescription2"]);
-                model.InstallationDetails.GateInstallationID2 = Convert.ToInt32(rowItem["GateInstallationID2"]);
+                model.InstallationDetails.GateInstallationID2 = Convert.ToString(rowItem["GateInstallationID2"]);
                 model.InstallationDetails.GateDescription3 = Convert.ToString(rowItem["GateDescription3"]);
-                model.InstallationDetails.GateInstallationID3 = Convert.ToInt32(rowItem["GateInstallationID3"]);
+                model.InstallationDetails.GateInstallationID3 = Convert.ToString(rowItem["GateInstallationID3"]);
                 model.InstallationDetails.GateDescription4 = Convert.ToString(rowItem["GateDescription4"]);
-                model.InstallationDetails.GateInstallationID4 = Convert.ToInt32(rowItem["GateInstallationID4"]);
+                model.InstallationDetails.GateInstallationID4 = Convert.ToString(rowItem["GateInstallationID4"]);
                 model.InstallationDetails.GateDescription5 = Convert.ToString(rowItem["GateDescription5"]);
-                model.InstallationDetails.GateInstallationID5 = Convert.ToInt32(rowItem["GateInstallationID5"]);
+                model.InstallationDetails.GateInstallationID5 = Convert.ToString(rowItem["GateInstallationID5"]);
                 model.InstallationDetails.EquipmentRequired = Convert.ToString(rowItem["EquipmentRequired"]);
                 model.InstallationDetails.DigTypeID = Convert.ToInt32(rowItem["DigTypeID"]);
                 model.InstallationDetails.WaterAvailible = Convert.ToInt32(rowItem["WaterAvailible"]);

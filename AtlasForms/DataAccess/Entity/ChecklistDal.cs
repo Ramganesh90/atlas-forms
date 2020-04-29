@@ -11,7 +11,6 @@ namespace AtlasForms.DataAccess.Entity
 {
     public class ChecklistDal
     {
-        private static String exepurl;
         private static string _myConnection;
 
         static ChecklistDal()
