@@ -549,7 +549,7 @@
 
             function IsValidNo(val) {
                 if (val) {
-                    return parseInt(val) != 0 && Number.isInteger(parseInt(val));
+                    return parseInt(val) != 0 && _.isNumber(parseInt(val));
                 }
                 else {
                     return false;

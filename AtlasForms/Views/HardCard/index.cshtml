@@ -114,7 +114,7 @@
 
                     var projectId = parseInt($("input[id='ProjectHeaderId']").val());
                     var bidid = parseInt($("select[id='BidItemId']").val());
-                    if (projectId && !Number.isNaN(projectId) && !Number.isNaN(bidid)) {
+                    if (projectId && _.isNumber((projectId)) && _.isNumber((bidid))) {
                         var parseData = {
                             "prjId": projectId,
                             "bidid": bidid
@@ -154,7 +154,7 @@
                 $("#ProjectHeaderId").on("change", function (e) {
                     var prjId = e.target.value;
                     $("#BidItemId option[value!='']").remove();
-                    if (prjId && Number.isInteger(parseInt(prjId))) {
+                    if (prjId && _.isNumber((parseInt(prjId)))) {
                         var parseData = {
                             "prjId": parseInt($("input[id='ProjectHeaderId']").val()),
                             "bidid": ""
