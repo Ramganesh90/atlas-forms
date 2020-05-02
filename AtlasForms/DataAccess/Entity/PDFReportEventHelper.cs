@@ -57,7 +57,7 @@ namespace AtlasForms.DataAccess.Entity
 
             cb.BeginText();
             cb.SetFontAndSize(bf, 8);
-            cb.SetTextMatrix(pageSize.GetLeft(15), pageSize.GetBottom(45));
+            cb.SetTextMatrix(pageSize.GetLeft(0), pageSize.GetBottom(45));
             cb.ShowText("________________________________________________________________________________________"
                         + "__________________________________________________________________________________________");
             cb.EndText();

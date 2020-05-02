@@ -20,7 +20,7 @@ namespace AtlasForms.Controllers
         {
             string title = string.Empty;
 
-            title = "Atlas Residential & Commerical Services LLC - Job Activation CheckList";
+            title = "     Atlas Residential & Commerical Services LLC - Job Activation CheckList";
 
             var model = new JobActivationChecklist();
             model.PRJID = Convert.ToInt32(prjid);
@@ -286,7 +286,7 @@ namespace AtlasForms.Controllers
         {
             string title = string.Empty;
 
-            title = "Atlas Residential & Commerical Services LLC - Job Card";
+            title = "                Atlas Residential & Commerical Services LLC - Job Card";
 
             var model = new HardCard();
             model.HardCardId = Convert.ToInt32(hid);

@@ -16,6 +16,6 @@ namespace AtlasForms.Models
         public string BidItemId { get; set; }
         public string HardCardId { get; set; }
 
-        public List<string> BidItemsList { get; set; }
+        public List<BidItem> BidItemsList { get; set; }
     }
 }

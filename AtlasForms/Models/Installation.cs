@@ -49,7 +49,7 @@ namespace AtlasForms.Models
         public string FinishDate { get; set; }
 
         [Display(Name = "Hard Date")]
-        public int HardDate { get; set; }
+        public string HardDate { get; set; }
 
         [Display(Name = "Pre Make Gates")]
         [Required(ErrorMessage = "Pre Make Gates is Required")]

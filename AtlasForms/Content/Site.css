@@ -248,6 +248,10 @@ hr {
     text-decoration: underline;
 }
 
+.form-control{
+    padding: 6px;
+}
+
 .field-validation-error > span, .required {
     color: red !important;
     font-size: 10pt !important;
@@ -271,9 +275,4 @@ hr {
     color: #0E2D4C !important;
     padding:5px !important;
     font-size: medium;
-}
-
-.project-info{
-    padding-left: 5px;
-
 }

@@ -69,7 +69,7 @@ namespace AtlasForms.Models
         [Required(ErrorMessage = "Stain Color is Required")]
         public string StainColor { get; set; }
         
-        [Display(Name = "StainBrand")]
+        [Display(Name = "Stain Brand")]
         [Required(ErrorMessage = "Stain Brand is Required")]
         public string StainBrand { get; set; }
 

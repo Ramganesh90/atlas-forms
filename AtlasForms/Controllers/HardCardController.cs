@@ -29,8 +29,8 @@ namespace AtlasForms.Controllers
                 {
                     IEnumerable<SelectListItem> ListBidItems = model.BidItemsList.Select(c => new SelectListItem
                     {
-                        Value = Convert.ToString(c.ToString()),
-                        Text = Convert.ToString(c.ToString())
+                        Value = Convert.ToString(c.BidItemHeaderId),
+                        Text = String.Format("{0} - {1}", c.BidItemHeaderId, c.BidItemName)
 
                     });
                     ViewBag.ListBidItems = ListBidItems;
@@ -55,8 +55,14 @@ namespace AtlasForms.Controllers
             var model = new ProjectBidViewModel();
             if (!string.IsNullOrWhiteSpace(prjid))
             {
-                var bidItems = HardCardDal.getBidItems(prjid);
-                model.BidItemsList = bidItems;
+                model.BidItemsList = HardCardDal.getBidItems(prjid);
+                model.ProjectHeaderId = prjid;
+                IEnumerable<SelectListItem> ListBidItems = model.BidItemsList.Select(c => new SelectListItem
+                {
+                    Value = Convert.ToString(c.BidItemHeaderId),
+                    Text = String.Format("{0} - {1}", c.BidItemHeaderId, c.BidItemName)
+
+                });
             }
 
             if (!string.IsNullOrWhiteSpace(bidid))

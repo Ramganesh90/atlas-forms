@@ -6,7 +6,6 @@
 <h2 class="text-center">Atlas Residential & Commerical Services LLC</h2>
 <br />
 
-
 @Html.AntiForgeryToken()
 
 <div class="container" style="min-height:400px">
@@ -31,7 +30,7 @@
             <div class="row">
                 <div class="form-group">
                     @Html.LabelFor(model => model.BidItemId, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
-                    <div class="col-md-4">
+                    <div class="col-md-7">
                         @Html.DropDownListFor(model => model.BidItemId, new SelectList(ViewBag.ListBidItems, "Value", "Text"),
                                         "-Select-", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.BidItemId, "", new { @class = "text-danger" })
@@ -66,7 +65,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                     
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success btn-sm" data-dismiss="modal">Close</button>
@@ -87,7 +86,6 @@
     @Scripts.Render("~/bundles/jqueryval")
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
 
@@ -100,7 +98,7 @@
             }
 
             $(document).ready(function () {
-
+                $('form').attr('autocomplete', 'off');
                 var prjId = $("#ProjectHeaderId").val();
                 if (!prjId) {
                     $("#BidItemId").attr("disabled", true);
@@ -110,10 +108,13 @@
                     $("#BidItemId").attr("disabled", !hasOptions);
                 }
 
-                $("button[name='btnSearch']").click(function () {
+                $("button[name='btnSearch']").click(function (e) {
 
                     var projectId = parseInt($("input[id='ProjectHeaderId']").val());
                     var bidid = parseInt($("select[id='BidItemId']").val());
+                    if (!bidid) {
+                        showModalMsg("Please select valid Bid Item", "error");
+                    }
                     if (projectId && _.isNumber((projectId)) && _.isNumber((bidid))) {
                         var parseData = {
                             "prjId": projectId,
@@ -135,7 +136,6 @@
                                     var message = "Job Card Not Found! Do you wish to create ? <a href='/AtlasAddons/Project/JobDetails/create/" + data.ProjectHeaderId + "/bid/"+data.BidItemId+"'>Click Here</a>";
                                     showModalMsg(message, "success");
                                 }
-
                             },
                             error: function (response) {
                                 alert(response.responseText);
@@ -171,12 +171,12 @@
                                     if (data.BidItemsList && data.BidItemsList.length > 0) {
                                         $("#BidItemId").removeAttr("disabled");
                                         $.each(data.BidItemsList, function (index, val) {
-                                            $('<option>' + val + '</option>').appendTo("#BidItemId");
+                                            $('<option>' + val.BidItemHeaderId +" - "+ val.BidItemName + '</option>').appendTo("#BidItemId");
                                         });
 
                                     }
                                     else {
-                                        showModalMsg("No Bid Item Found","error");
+                                        showModalMsg("Invalid Project/Bid Item", "error");
                                         $("#BidItemId").attr("disabled", true);
                                     }
                                 }

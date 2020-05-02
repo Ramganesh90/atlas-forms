@@ -159,7 +159,7 @@ namespace AtlasForms.DataAccess.Entity
                 model.InstallationDetails.CBYDNumber = Convert.ToString(rowItem["CBYDNumber"]);
                 model.InstallationDetails.StartDate = rowItem["StartDate"] != DBNull.Value ? Convert.ToDateTime(rowItem["StartDate"]).ToShortDateString() : "";
                 model.InstallationDetails.FinishDate = rowItem["FinishDate"] != DBNull.Value ? Convert.ToDateTime(rowItem["FinishDate"]).ToShortDateString() : "";
-                model.InstallationDetails.HardDate = Convert.ToInt32(rowItem["HardDate"]);
+                model.InstallationDetails.HardDate = Convert.ToString(rowItem["HardDate"]);
                 model.InstallationDetails.GateDescription1 = Convert.ToString(rowItem["GateDescription1"]);
                 model.InstallationDetails.GateInstallationID1 = Convert.ToString(rowItem["GateInstallationID1"]);
                 model.InstallationDetails.GateDescription2 = Convert.ToString(rowItem["GateDescription2"]);
@@ -283,18 +283,21 @@ namespace AtlasForms.DataAccess.Entity
             return result;
         }
 
-        internal static List<string> getBidItems(string projectId)
+        internal static List<BidItem> getBidItems(string projectId)
         {
 
             var resultSet = SqlHelper.ExecuteDataset(_myConnection, CommandType.Text,
                                  "select BidItemHeaderId, BidItemName,ProjectHeaderId from BID01_BidItemHeader where ProjectHeaderId = @PRJID",
                                  new SqlParameter("@PRJID", projectId));
-            var biditemList = new List<string>();
+            var biditemList = new List<BidItem>();
             if (resultSet.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow row in resultSet.Tables[0].Rows)
                 {
-                    biditemList.Add(Convert.ToString(row["BidItemHeaderId"]));
+                    var bidItem = new BidItem();
+                    bidItem.BidItemHeaderId = Convert.ToString(row["BidItemHeaderId"]);
+                    bidItem.BidItemName = Convert.ToString(row["BidItemName"]);
+                    biditemList.Add(bidItem);
                 }
             }
             return biditemList;
