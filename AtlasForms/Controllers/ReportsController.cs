@@ -462,10 +462,10 @@ namespace AtlasForms.Controllers
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListInstallationResponses.
                 First(i => i.ResponseId == model.InstallationDetails.LeaveSamplesByInstaller).Response, PDFUtil.spanNormalBlack, colSpan: 3));
 
-            installDetails.AddCell(PDFUtil.CreateCell("Scope", PDFUtil.font_body_bold, 2, false));
-            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.Scope, PDFUtil.spanNormalBlack));
             installDetails.AddCell(PDFUtil.CreateCell("Budgeted Install Days", PDFUtil.font_body_bold, 2, false));
-            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.BudgetedInstallDays, PDFUtil.spanNormalBlack, colSpan: 3));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.BudgetedInstallDays, PDFUtil.spanNormalBlack));
+            installDetails.AddCell(PDFUtil.CreateCell("Scope", PDFUtil.font_body_bold, 2, false));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.Scope, PDFUtil.spanNormalBlack, colSpan: 3));
 
             document.Add(installDetails);
 

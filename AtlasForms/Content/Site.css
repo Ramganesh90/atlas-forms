@@ -249,7 +249,7 @@ hr {
 }
 
 .form-control{
-    padding: 6px;
+    padding: 6px !important;
 }
 
 .field-validation-error > span, .required {
