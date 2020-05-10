@@ -123,87 +123,95 @@ namespace AtlasForms.DataAccess.Entity
 
         internal static void getHardCardDetails(HardCard model)
         {
-            var resultSet = SqlHelper.ExecuteDataset(_myConnection, CommandType.StoredProcedure,
-                                     "spATL_PRJ_HardCard_GetDtls",
-                                     new SqlParameter("@HardCardID", model.HardCardId)).Tables[0];
-            if (resultSet.Rows.Count > 0)
+            try
             {
-                var rowItem = resultSet.Rows[0];
-                model.ProjectHeaderId = Convert.ToInt32(rowItem["ProjectHeaderId"]);
-                model.BidItemHeaderid = Convert.ToInt32(rowItem["BidItemHeaderId"]);
-                if (model.JobInformationDetails == null)
+                var resultSet = SqlHelper.ExecuteDataset(_myConnection, CommandType.StoredProcedure,
+                                             "spATL_PRJ_HardCard_GetDtls",
+                                             new SqlParameter("@HardCardID", model.HardCardId)).Tables[0];
+                if (resultSet.Rows.Count > 0)
                 {
-                    model.JobInformationDetails = new JobInformation();
-                }
-                if (model.ContractInformationDetails == null)
-                {
-                    model.ContractInformationDetails = new ContractorInformation();
-                }
-                if (model.InstallationDetails == null)
-                {
-                    model.InstallationDetails = new Installation();
-                }
-                if (model.BuildChecklistDetails == null)
-                {
-                    model.BuildChecklistDetails = new BuildChecklist();
-                }
+                    var rowItem = resultSet.Rows[0];
+                    model.ProjectHeaderId = Convert.ToInt32(rowItem["ProjectHeaderId"]);
+                    model.BidItemHeaderid = Convert.ToInt32(rowItem["BidItemHeaderId"]);
+                    if (model.JobInformationDetails == null)
+                    {
+                        model.JobInformationDetails = new JobInformation();
+                    }
+                    if (model.ContractInformationDetails == null)
+                    {
+                        model.ContractInformationDetails = new ContractorInformation();
+                    }
+                    if (model.InstallationDetails == null)
+                    {
+                        model.InstallationDetails = new Installation();
+                    }
+                    if (model.BuildChecklistDetails == null)
+                    {
+                        model.BuildChecklistDetails = new BuildChecklist();
+                    }
 
-                model.JobInformationDetails.BidItemHeaderId = Convert.ToInt32(rowItem["BidItemHeaderId"]);
-                model.JobInformationDetails.CallInRoute = Convert.ToString(rowItem["CallInRoute"]);
-                model.ContractInformationDetails.FenceType = Convert.ToString(rowItem["FenceTypeId"]);
-                model.ContractInformationDetails.SplNotes = Convert.ToString(rowItem["SpecialComments"]);
-                model.ContractInformationDetails.Directions = Convert.ToString(rowItem["LocationDirections"]);
-                model.InstallationDetails.PremakeGate = Convert.ToInt32(rowItem["PremakeGate"]);
-                model.InstallationDetails.CBYD = Convert.ToInt32(rowItem["CBYD"]);
-                model.InstallationDetails.CBYDDate = rowItem["CBYDDate"]  !=DBNull.Value ? Convert.ToDateTime(rowItem["CBYDDate"]).ToShortDateString() : "";
-                model.InstallationDetails.CBYDNumber = Convert.ToString(rowItem["CBYDNumber"]);
-                model.InstallationDetails.StartDate = rowItem["StartDate"] != DBNull.Value ? Convert.ToDateTime(rowItem["StartDate"]).ToShortDateString() : "";
-                model.InstallationDetails.FinishDate = rowItem["FinishDate"] != DBNull.Value ? Convert.ToDateTime(rowItem["FinishDate"]).ToShortDateString() : "";
-                model.InstallationDetails.HardDate = Convert.ToString(rowItem["HardDate"]);
-                model.InstallationDetails.GateDescription1 = Convert.ToString(rowItem["GateDescription1"]);
-                model.InstallationDetails.GateInstallationID1 = Convert.ToString(rowItem["GateInstallationID1"]);
-                model.InstallationDetails.GateDescription2 = Convert.ToString(rowItem["GateDescription2"]);
-                model.InstallationDetails.GateInstallationID2 = Convert.ToString(rowItem["GateInstallationID2"]);
-                model.InstallationDetails.GateDescription3 = Convert.ToString(rowItem["GateDescription3"]);
-                model.InstallationDetails.GateInstallationID3 = Convert.ToString(rowItem["GateInstallationID3"]);
-                model.InstallationDetails.GateDescription4 = Convert.ToString(rowItem["GateDescription4"]);
-                model.InstallationDetails.GateInstallationID4 = Convert.ToString(rowItem["GateInstallationID4"]);
-                model.InstallationDetails.GateDescription5 = Convert.ToString(rowItem["GateDescription5"]);
-                model.InstallationDetails.GateInstallationID5 = Convert.ToString(rowItem["GateInstallationID5"]);
-                model.InstallationDetails.EquipmentRequired = Convert.ToString(rowItem["EquipmentRequired"]);
-                model.InstallationDetails.DigTypeID = Convert.ToInt32(rowItem["DigTypeID"]);
-                model.InstallationDetails.WaterAvailible = Convert.ToInt32(rowItem["WaterAvailible"]);
-                model.InstallationDetails.ElectricityAvailible = Convert.ToInt32(rowItem["ElectricityAvailible"]);
-                model.InstallationDetails.MeasureByInstaller = Convert.ToInt32(rowItem["MeasureByInstaller"]);
-                model.InstallationDetails.LeaveSamplesByInstaller = Convert.ToInt32(rowItem["LeaveSamplesByInstaller"]);
-                model.InstallationDetails.Scope = Convert.ToString(rowItem["Scope"]);
-                model.InstallationDetails.BudgetedInstallDays = Convert.ToDecimal(rowItem["BudgetedInstallDays"]);
+                    model.JobInformationDetails.BidItemHeaderId = Convert.ToInt32(rowItem["BidItemHeaderId"]);
+                    model.JobInformationDetails.CallInRoute = Convert.ToString(rowItem["CallInRoute"]);
+                    model.ContractInformationDetails.FenceType = Convert.ToString(rowItem["FenceTypeId"]);
+                    model.ContractInformationDetails.SplNotes = Convert.ToString(rowItem["SpecialComments"]);
+                    model.ContractInformationDetails.Directions = Convert.ToString(rowItem["LocationDirections"]);
+                    model.InstallationDetails.PremakeGate = Convert.ToInt32(rowItem["PremakeGate"]);
+                    model.InstallationDetails.CBYD = Convert.ToInt32(rowItem["CBYD"]);
+                    model.InstallationDetails.CBYDDate = rowItem["CBYDDate"] != DBNull.Value ? Convert.ToDateTime(rowItem["CBYDDate"]).ToShortDateString() : "";
+                    model.InstallationDetails.CBYDNumber = Convert.ToString(rowItem["CBYDNumber"]);
+                    model.InstallationDetails.StartDate = rowItem["StartDate"] != DBNull.Value ? Convert.ToDateTime(rowItem["StartDate"]).ToShortDateString() : "";
+                    model.InstallationDetails.FinishDate = rowItem["FinishDate"] != DBNull.Value ? Convert.ToDateTime(rowItem["FinishDate"]).ToShortDateString() : "";
+                    model.InstallationDetails.HardDate = Convert.ToString(rowItem["HardDate"]);
+                    model.InstallationDetails.GateDescription1 = Convert.ToString(rowItem["GateDescription1"]);
+                    model.InstallationDetails.GateInstallationID1 = Convert.ToString(rowItem["GateInstallationID1"]);
+                    model.InstallationDetails.GateDescription2 = Convert.ToString(rowItem["GateDescription2"]);
+                    model.InstallationDetails.GateInstallationID2 = Convert.ToString(rowItem["GateInstallationID2"]);
+                    model.InstallationDetails.GateDescription3 = Convert.ToString(rowItem["GateDescription3"]);
+                    model.InstallationDetails.GateInstallationID3 = Convert.ToString(rowItem["GateInstallationID3"]);
+                    model.InstallationDetails.GateDescription4 = Convert.ToString(rowItem["GateDescription4"]);
+                    model.InstallationDetails.GateInstallationID4 = Convert.ToString(rowItem["GateInstallationID4"]);
+                    model.InstallationDetails.GateDescription5 = Convert.ToString(rowItem["GateDescription5"]);
+                    model.InstallationDetails.GateInstallationID5 = Convert.ToString(rowItem["GateInstallationID5"]);
+                    model.InstallationDetails.EquipmentRequired = Convert.ToString(rowItem["EquipmentRequired"]);
+                    model.InstallationDetails.DigTypeID = Convert.ToInt32(rowItem["DigTypeID"]);
+                    model.InstallationDetails.WaterAvailible = Convert.ToInt32(rowItem["WaterAvailible"]);
+                    model.InstallationDetails.ElectricityAvailible = Convert.ToInt32(rowItem["ElectricityAvailible"]);
+                    model.InstallationDetails.MeasureByInstaller = Convert.ToInt32(rowItem["MeasureByInstaller"]);
+                    model.InstallationDetails.LeaveSamplesByInstaller = Convert.ToInt32(rowItem["LeaveSamplesByInstaller"]);
+                    model.InstallationDetails.Scope = Convert.ToString(rowItem["Scope"]);
+                    model.InstallationDetails.BudgetedInstallDays = Convert.ToDecimal(rowItem["BudgetedInstallDays"]);
 
-                model.BuildChecklistDetails.PoolCode = Convert.ToInt32(rowItem["PoolCode"]);
-                model.BuildChecklistDetails.BuildForRack = Convert.ToInt32(rowItem["BuildForRack"]);
-                model.BuildChecklistDetails.SteppingTemp = Convert.ToInt32(rowItem["SteppingTemp"]);
-                model.BuildChecklistDetails.Dowelled = Convert.ToInt32(rowItem["Dowelled"]);
-                model.BuildChecklistDetails.Morticed = Convert.ToInt32(rowItem["Morticed"]);
-                model.BuildChecklistDetails.NailOn = Convert.ToInt32(rowItem["NailOn"]);
-                model.BuildChecklistDetails.SingleNailed = Convert.ToInt32(rowItem["SingleNailed"]);
-                model.BuildChecklistDetails.BuildFullSections = Convert.ToInt32(rowItem["BuildFullSections"]);
-                model.BuildChecklistDetails.FenceDirectionID = Convert.ToInt32(rowItem["FenceDirectionID"]);
-                model.BuildChecklistDetails.FenceInstallID = Convert.ToInt32(rowItem["FenceInstallID"]);
-                model.BuildChecklistDetails.Stain = Convert.ToInt32(rowItem["Stain"]);
-                model.BuildChecklistDetails.StainColor = Convert.ToString(rowItem["StainColor"]);
-                model.BuildChecklistDetails.StainBrand = Convert.ToString(rowItem["StainBrand"]);
-                model.BuildChecklistDetails.TrimInField = Convert.ToInt32(rowItem["TrimInField"]);
-                model.BuildChecklistDetails.PostPins = Convert.ToInt32(rowItem["PostPins"]);
-                model.BuildChecklistDetails.TearOutTypeID = Convert.ToInt32(rowItem["TearOutTypeID"]);
-                model.BuildChecklistDetails.SafetyOfficerOnsite = Convert.ToInt32(rowItem["SafetyOfficerOnsite"]);
-                model.BuildChecklistDetails.SafteyMeetingOrintationOnsiteReq = Convert.ToInt32(rowItem["SafteyMeetingOrintationOnsiteReq"]);
-                model.BuildChecklistDetails.SafteyInspectionReqBeforeJobStarts = Convert.ToInt32(rowItem["SafteyInspectionReqBeforeJobStarts"]);
-                model.BuildChecklistDetails.PPERequired = Convert.ToInt32(rowItem["PPERequired"]);
-                model.BuildChecklistDetails.EquipmentOperatorCertsReq = Convert.ToInt32(rowItem["EquipmentOperatorCertsReq"]);
-                model.BuildChecklistDetails.OtherHazards = Convert.ToString(rowItem["OtherHazards"]);
-                model.BuildChecklistDetails.Notes = Convert.ToString(rowItem["Notes"]);
+                    model.BuildChecklistDetails.PoolCode = Convert.ToInt32(rowItem["PoolCode"]);
+                    model.BuildChecklistDetails.BuildForRack = Convert.ToInt32(rowItem["BuildForRack"]);
+                    model.BuildChecklistDetails.SteppingTemp = Convert.ToInt32(rowItem["SteppingTemp"]);
+                    model.BuildChecklistDetails.Dowelled = Convert.ToInt32(rowItem["Dowelled"]);
+                    model.BuildChecklistDetails.Morticed = Convert.ToInt32(rowItem["Morticed"]);
+                    model.BuildChecklistDetails.NailOn = Convert.ToInt32(rowItem["NailOn"]);
+                    model.BuildChecklistDetails.SingleNailed = Convert.ToInt32(rowItem["SingleNailed"]);
+                    model.BuildChecklistDetails.BuildFullSections = Convert.ToInt32(rowItem["BuildFullSections"]);
+                    model.BuildChecklistDetails.FenceDirectionID = Convert.ToInt32(rowItem["FenceDirectionID"]);
+                    model.BuildChecklistDetails.FenceInstallID = Convert.ToInt32(rowItem["FenceInstallID"]);
+                    model.BuildChecklistDetails.Stain = Convert.ToInt32(rowItem["Stain"]);
+                    model.BuildChecklistDetails.StainColor = Convert.ToString(rowItem["StainColor"]);
+                    model.BuildChecklistDetails.StainBrand = Convert.ToString(rowItem["StainBrand"]);
+                    model.BuildChecklistDetails.TrimInField = Convert.ToInt32(rowItem["TrimInField"]);
+                    model.BuildChecklistDetails.PostPins = Convert.ToInt32(rowItem["PostPins"]);
+                    model.BuildChecklistDetails.TearOutTypeID = Convert.ToInt32(rowItem["TearOutTypeID"]);
+                    model.BuildChecklistDetails.SafetyOfficerOnsite = Convert.ToInt32(rowItem["SafetyOfficerOnsite"]);
+                    model.BuildChecklistDetails.SafteyMeetingOrintationOnsiteReq = Convert.ToInt32(rowItem["SafteyMeetingOrintationOnsiteReq"]);
+                    model.BuildChecklistDetails.SafteyInspectionReqBeforeJobStarts = Convert.ToInt32(rowItem["SafteyInspectionReqBeforeJobStarts"]);
+                    model.BuildChecklistDetails.PPERequired = Convert.ToInt32(rowItem["PPERequired"]);
+                    model.BuildChecklistDetails.EquipmentOperatorCertsReq = Convert.ToInt32(rowItem["EquipmentOperatorCertsReq"]);
+                    model.BuildChecklistDetails.OtherHazards = Convert.ToString(rowItem["OtherHazards"]);
+                    model.BuildChecklistDetails.Notes = Convert.ToString(rowItem["Notes"]);
 
 
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.SaveErr(ex);
+                throw;
             }
 
 

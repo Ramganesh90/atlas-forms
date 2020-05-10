@@ -38,7 +38,7 @@ namespace AtlasForms.DataAccess.Entity
             header = new Paragraph(title, PDFUtil.font_heading_1);
             iTextSharp.text.pdf.draw.VerticalPositionMark seperator = new iTextSharp.text.pdf.draw.LineSeparator();
             seperator.Offset = -4f;
-            header.Add(seperator);
+            //header.Add(seperator);
             cell = new PdfPCell(header);
             cell.Border = Rectangle.NO_BORDER;
             cell.HorizontalAlignment = 2;

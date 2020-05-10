@@ -20,33 +20,21 @@ namespace AtlasForms.Controllers
         {
             string title = string.Empty;
 
-            title = "     Atlas Residential & Commerical Services LLC - Job Activation CheckList";
-
             var model = new JobActivationChecklist();
             model.PRJID = Convert.ToInt32(prjid);
             model = ChecklistDal.getProjectActivationDetails(model);
             model = ChecklistDal.JobActivationLookup(model);
 
-            // Set up the document and the MS to write it to and create the PDF writer instance
             MemoryStream ms = new MemoryStream();
-            Document document = new Document(PageSize.A4, 5, 0, 45, 45);
+            Document document = new Document(PageSize.A4, 15, 10, 15, 35);
             PdfWriter writer = PdfWriter.GetInstance(document, ms);
             writer.PageEvent = new PDFReportEventHelper(title);
 
             // Open the PDF document
             document.Open();
+            document.Add(PDFUtil.HeaderSection("Job Activation Checklist"));
 
-            document.Add(PDFUtil.HeaderSection("Project Information"));
-
-            var projectTable = new PdfPTable(2);
-            projectTable.HorizontalAlignment = 0;
-            projectTable.WidthPercentage = 100;
-            projectTable.SpacingBefore = 5;
-            projectTable.SpacingAfter = 5;
-            projectTable.DefaultCell.Border = 0;
-            projectTable.DefaultCell.Padding = 30f;
-            projectTable.SetWidths(new float[] { 3, 6 });
-
+            var projectTable = PDFUtil.createTableWithHeader("Project Information", new float[] { 3, 6 });
             projectTable.AddCell(PDFUtil.CreateCell("Atlas Job Number", PDFUtil.font_body_bold, 2, false));
             projectTable.AddCell(PDFUtil.CreateCell(model.projectInformation.JobNumber, PDFUtil.spanNormalBlack, 0, false));
             projectTable.AddCell(PDFUtil.CreateCell("Atlas Company Name", PDFUtil.font_body_bold, 2, false));
@@ -55,30 +43,30 @@ namespace AtlasForms.Controllers
             projectTable.AddCell(PDFUtil.CreateCell(model.projectInformation.CustomerProfile.Name, PDFUtil.spanNormalBlack, 0, false));
             projectTable.AddCell(PDFUtil.CreateCell("Address, City, State, Zip", PDFUtil.font_body_bold, 2, false));
             string CustomerAddr = string.Format("{0} | {1} | {2} | {3}",
-                                                        model.projectInformation.CustomerProfile.Address,
-                                                        model.projectInformation.CustomerProfile.City,
-                                                        model.projectInformation.CustomerProfile.State,
-                                                        model.projectInformation.CustomerProfile.Zip);
+                                                        model.projectInformation.CustomerProfile.Address ?? "-",
+                                                        model.projectInformation.CustomerProfile.City ?? "-",
+                                                        model.projectInformation.CustomerProfile.State ?? "-",
+                                                        model.projectInformation.CustomerProfile.Zip ?? "-");
             projectTable.AddCell(PDFUtil.CreateCell(CustomerAddr, PDFUtil.spanNormalBlack, 0, false));
             projectTable.AddCell(PDFUtil.CreateCell("Phone Number, Extension", PDFUtil.font_body_bold, 2, false));
             string CustomerPhone = string.Format("{0} | {1}",
-                                                        model.projectInformation.CustomerProfile.PhoneNumber ?? "NA",
-                                                        model.projectInformation.CustomerProfile.Extension ?? "NA");
-            projectTable.AddCell(PDFUtil.CreateCell(CustomerPhone ?? "NA", PDFUtil.spanNormalBlack, 0, false));
+                                                        AppUtil.formatPhoneNumber(model.projectInformation.CustomerProfile.PhoneNumber) ?? "-",
+                                                         AppUtil.formatPhoneNumber(model.projectInformation.CustomerProfile.Extension) ?? "-");
+            projectTable.AddCell(PDFUtil.CreateCell(CustomerPhone, PDFUtil.spanNormalBlack, 0, false));
             projectTable.AddCell(PDFUtil.CreateCell("Project Name", PDFUtil.font_body_bold, 2, false));
             projectTable.AddCell(PDFUtil.CreateCell(model.projectInformation.ProjectProfile.Name, PDFUtil.spanNormalBlack, 0, false));
             projectTable.AddCell(PDFUtil.CreateCell("Address, City, State, Zip", PDFUtil.font_body_bold, 2, false));
             string ProjectAddr = string.Format("{0} | {1} | {2} | {3}",
-                                                       model.projectInformation.ProjectProfile.Address,
-                                                       model.projectInformation.ProjectProfile.City,
-                                                       model.projectInformation.ProjectProfile.State,
-                                                       model.projectInformation.ProjectProfile.Zip);
+                                                       model.projectInformation.ProjectProfile.Address ?? "-",
+                                                       model.projectInformation.ProjectProfile.City ?? "-",
+                                                       model.projectInformation.ProjectProfile.State ?? "-",
+                                                       model.projectInformation.ProjectProfile.Zip ?? "-");
             projectTable.AddCell(PDFUtil.CreateCell(ProjectAddr, PDFUtil.spanNormalBlack, 0, false));
             projectTable.AddCell(PDFUtil.CreateCell("Contact Name/Phone Number, Ext", PDFUtil.font_body_bold, 2, false));
             string ProjectPhone = string.Format("{0} | {1} | {2}",
-                                                        model.projectInformation.CustomerProfile.ContactName ?? "NA",
-                                                        model.projectInformation.CustomerProfile.PhoneNumber ?? "NA",
-                                                        model.projectInformation.CustomerProfile.Extension ?? "NA");
+                                                        model.projectInformation.CustomerProfile.ContactName ?? "-",
+                                                        AppUtil.formatPhoneNumber(model.projectInformation.CustomerProfile.PhoneNumber) ?? "-",
+                                                        AppUtil.formatPhoneNumber(model.projectInformation.CustomerProfile.Extension) ?? "-");
             projectTable.AddCell(PDFUtil.CreateCell(ProjectPhone, PDFUtil.spanNormalBlack, 0, false));
             projectTable.AddCell(PDFUtil.CreateCell("Customer Type", PDFUtil.font_body_bold, 2, false));
             projectTable.AddCell(PDFUtil.CreateCell(model.ListCustomersTypes.
@@ -96,17 +84,7 @@ namespace AtlasForms.Controllers
 
             document.Add(projectTable);
 
-            document.Add(PDFUtil.HeaderSection("Contract/Job Paperwork"));
-
-            var ContractTable = new PdfPTable(4);
-            ContractTable.HorizontalAlignment = 0;
-            ContractTable.WidthPercentage = 98;
-            ContractTable.SpacingBefore = 5;
-            ContractTable.SpacingAfter = 5;
-            ContractTable.DefaultCell.Border = 0;
-            ContractTable.DefaultCell.Padding = 30f;
-            ContractTable.SetWidths(new float[] { 3, 1, 1.5f, 5 });
-
+            var ContractTable = PDFUtil.createTableWithHeader("Contract/Job Paperwork", new float[] { 3, 1, 1.5f, 5 });
             ContractTable.AddCell(PDFUtil.CreateCell("Copy of Contract or PO", PDFUtil.font_body_bold, 2, false));
             ContractTable.AddCell(PDFUtil.CreateCell(model.ListResponses.
                 First(i => i.ResponseId.ToString() == model.contractPaperWork.CopyOfContractorPO).Response, PDFUtil.spanNormalBlack, 0, false));
@@ -163,16 +141,7 @@ namespace AtlasForms.Controllers
 
             document.Add(ContractTable);
 
-            document.Add(PDFUtil.HeaderSection("Bonding/Insurance/Labor "));
-            var BondingTable = new PdfPTable(4);
-            BondingTable.HorizontalAlignment = 0;
-            BondingTable.WidthPercentage = 98;
-            BondingTable.SpacingBefore = 5;
-            BondingTable.SpacingAfter = 5;
-            BondingTable.DefaultCell.Border = 0;
-            BondingTable.DefaultCell.Padding = 30f;
-            BondingTable.SetWidths(new float[] { 3, 1, 1.5f, 5 });
-
+            var BondingTable = PDFUtil.createTableWithHeader("Bonding/Insurance/Labor ", new float[] { 3, 1, 1.5f, 5 });
             BondingTable.AddCell(PDFUtil.CreateCell("Received bond (if required) and necessary insurance certification", PDFUtil.font_body_bold, 2, false));
             BondingTable.AddCell(PDFUtil.CreateCell(model.ListResponses.
                 First(i => i.ResponseId.ToString() == model.bondingInsurance.InsuranceCertification).Response, PDFUtil.spanNormalBlack, 0, false));
@@ -180,17 +149,9 @@ namespace AtlasForms.Controllers
             BondingTable.AddCell(PDFUtil.CreateCell(model.bondingInsurance.InsuranceCertificationComments, PDFUtil.spanNormalBlack, 0, false));
 
             document.Add(BondingTable);
-            document.Add(PDFUtil.HeaderSection("Safety Requirements - For all 'Yes' answers, please provide additional details"));
 
-            var SafetyTable = new PdfPTable(4);
-            SafetyTable.HorizontalAlignment = 0;
-            SafetyTable.WidthPercentage = 98;
-            SafetyTable.SpacingBefore = 5;
-            SafetyTable.SpacingAfter = 5;
-            SafetyTable.DefaultCell.Border = 0;
-            SafetyTable.DefaultCell.Padding = 30f;
-            SafetyTable.SetWidths(new float[] { 3, 1, 1.5f, 5 });
-
+            var SafetyTable = PDFUtil.createTableWithHeader("Safety Requirements - For all 'Yes' answers, please provide additional details",
+                                        new float[] { 3, 1, 1.5f, 5 });
             SafetyTable.AddCell(PDFUtil.CreateCell("Is there a safety officer on site? If so, provide Contact Informatios there a safety officer on site? If so, provide Contact Information", PDFUtil.font_body_bold, 2, false));
             SafetyTable.AddCell(PDFUtil.CreateCell(model.ListResponses.
                 First(i => i.ResponseId.ToString() == model.safetyRequirements.SafetyOfficer).Response, PDFUtil.spanNormalBlack, 0, false));
@@ -234,31 +195,15 @@ namespace AtlasForms.Controllers
             SafetyTable.AddCell(PDFUtil.CreateCell(model.safetyRequirements.OtherHazardsComments, PDFUtil.spanNormalBlack, 0, false));
 
             document.Add(SafetyTable);
-            document.Add(PDFUtil.HeaderSection("Other Important Factors"));
 
-            var OtherImportantTable = new PdfPTable(2);
-            OtherImportantTable.HorizontalAlignment = 0;
-            OtherImportantTable.WidthPercentage = 98;
-            OtherImportantTable.SpacingBefore = 5;
-            OtherImportantTable.SpacingAfter = 5;
-            OtherImportantTable.DefaultCell.Border = 0;
-            OtherImportantTable.DefaultCell.Padding = 30f;
-            OtherImportantTable.SetWidths(new float[] { 3, 7 });
-
+            var OtherImportantTable = PDFUtil.createTableWithHeader("Other Important Factors",new float[] { 3, 7 });
             OtherImportantTable.AddCell(PDFUtil.CreateCell("Please fill in any other pertinant information", PDFUtil.font_body_bold, 2, false));
             OtherImportantTable.AddCell(PDFUtil.CreateCell(model.otherImportantFactors.OtherPertinentInformation, PDFUtil.spanNormalBlack, 0, false));
             document.Add(OtherImportantTable);
 
-            document.Add(PDFUtil.GetLineSeparator());
-            var footerTable = new PdfPTable(4);
-            footerTable.HorizontalAlignment = 0;
-            footerTable.WidthPercentage = 98;
-            footerTable.SpacingBefore = 5;
-            footerTable.SpacingAfter = 5;
-            footerTable.DefaultCell.Border = 0;
-            footerTable.DefaultCell.Padding = 30f;
-            footerTable.SetWidths(new float[] { 1, 2, 1, 2 });
+           // document.Add(PDFUtil.GetLineSeparator());
 
+            var footerTable = PDFUtil.createTableWithHeader("", new float[] { 1, 2, 1, 2 },true);
             footerTable.AddCell(PDFUtil.CreateCell("Estimator Name", PDFUtil.font_body_bold, 2, false));
             footerTable.AddCell(PDFUtil.CreateCell(model.projectInformation.Estimator, PDFUtil.spanNormalBlack, 0, false));
             footerTable.AddCell(PDFUtil.CreateCell("Date Completed", PDFUtil.font_body_bold, 2, false));
@@ -286,33 +231,24 @@ namespace AtlasForms.Controllers
         {
             string title = string.Empty;
 
-            title = "                Atlas Residential & Commerical Services LLC - Job Card";
-
+            title = "";
             var model = new HardCard();
             model.HardCardId = Convert.ToInt32(hid);
             HardCardDal.getHardCardDetails(model);
             HardCardDal.getHardCardLookUpList(model);
 
-
             // Set up the document and the MS to write it to and create the PDF writer instance
             MemoryStream ms = new MemoryStream();
-            Document document = new Document(PageSize.A4,5, 0,45,45);
+            Document document = new Document(PageSize.A4,15, 10,15,35);
             PdfWriter writer = PdfWriter.GetInstance(document, ms);
             writer.PageEvent = new PDFReportEventHelper(title);
 
             // Open the PDF document
             document.Open();
+            document.Add(PDFUtil.HeaderSection("Job Card"));
 
-            document.Add(PDFUtil.HeaderSection("Job Information"));
-
-            var jobInfo = new PdfPTable(4);
-            jobInfo.HorizontalAlignment = 0;
-            jobInfo.WidthPercentage = 90;
-            jobInfo.SpacingBefore = 5;
-            jobInfo.SpacingAfter = 5;
-            jobInfo.DefaultCell.Border = 0;
-            jobInfo.DefaultCell.Padding = 10f;
-            jobInfo.SetWidths(new float[] { 2, 2, 2, 2 });
+            #region Job Info
+            var jobInfo = PDFUtil.createTableWithHeader("Job Information", new float[] { 2, 2, 2, 2 });
 
             jobInfo.AddCell(PDFUtil.CreateCell("Estimator", PDFUtil.font_body_bold, 2, false));
             jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.EstimatorsName, PDFUtil.spanNormalBlack));
@@ -320,12 +256,12 @@ namespace AtlasForms.Controllers
             jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.Atlas_Job_Number, PDFUtil.spanNormalBlack));
 
             jobInfo.AddCell(PDFUtil.CreateCell("Est.Phone #", PDFUtil.font_body_bold, 2, false));
-            jobInfo.AddCell(PDFUtil.CreateCell(String.Format("{0:(###) ###-####}", model.JobInformationDetails.ContractPhoneNumber), PDFUtil.spanNormalBlack));
+            jobInfo.AddCell(PDFUtil.CreateCell(AppUtil.formatPhoneNumber(model.JobInformationDetails.ContractPhoneNumber), PDFUtil.spanNormalBlack));
             jobInfo.AddCell(PDFUtil.CreateCell("BI Number", PDFUtil.font_body_bold, 2, false));
             jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.BidItemHeaderId, PDFUtil.spanNormalBlack));
 
             jobInfo.AddCell(PDFUtil.CreateCell("Job Name", PDFUtil.font_body_bold, 2, false));
-            jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.JobName, PDFUtil.spanNormalBlack, colSpan:3));
+            jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.JobName, PDFUtil.spanNormalBlack, colSpan: 3));
 
             jobInfo.AddCell(PDFUtil.CreateCell("Job Address", PDFUtil.font_body_bold, 2, false));
             jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.JobAddress, PDFUtil.spanNormalBlack, colSpan: 3));
@@ -339,38 +275,31 @@ namespace AtlasForms.Controllers
             jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.JobContact, PDFUtil.spanNormalBlack));
             jobInfo.AddCell(PDFUtil.CreateCell("Call In Route", PDFUtil.font_body_bold, 2, false));
             jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.ListJobInfoResponse.
-                First(i => i.ResponseId.ToString() == model.JobInformationDetails.CallInRoute).Response, PDFUtil.spanNormalBlack));
+                FirstOrDefault(i => i.ResponseId.ToString() == model.JobInformationDetails.CallInRoute)?.Response, PDFUtil.spanNormalBlack));
 
             jobInfo.AddCell(PDFUtil.CreateCell("Contact Phone", PDFUtil.font_body_bold, 2, false));
-            jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.JobPhone, PDFUtil.spanNormalBlack));
+            jobInfo.AddCell(PDFUtil.CreateCell(AppUtil.formatPhoneNumber(model.JobInformationDetails.JobPhone), PDFUtil.spanNormalBlack));
             jobInfo.AddCell(PDFUtil.CreateCell("Contact Cell", PDFUtil.font_body_bold, 2, false));
-            jobInfo.AddCell(PDFUtil.CreateCell(model.JobInformationDetails.JobCell, PDFUtil.spanNormalBlack));
+            jobInfo.AddCell(PDFUtil.CreateCell(AppUtil.formatPhoneNumber(model.JobInformationDetails.JobCell), PDFUtil.spanNormalBlack));
 
             document.Add(jobInfo);
 
-            document.Add(PDFUtil.HeaderSection("Contract Information"));
+            #endregion
 
-            var contractInfo = new PdfPTable(4);
-            contractInfo.HorizontalAlignment = 0;
-            contractInfo.WidthPercentage = 90;
-            contractInfo.SpacingBefore = 5;
-            contractInfo.SpacingAfter = 5;
-            contractInfo.DefaultCell.Border = 0;
-            contractInfo.DefaultCell.Padding = 10f;
-            contractInfo.SetWidths(new float[] { 2, 2, 2, 2 });
-
+            #region ContractorInfo
+            var contractInfo = PDFUtil.createTableWithHeader("Contractor Information", new float[] { 2, 2, 2, 2 });
             contractInfo.AddCell(PDFUtil.CreateCell("Contractor Name", PDFUtil.font_body_bold, 2, false));
-            contractInfo.AddCell(PDFUtil.CreateCell(model.ContractInformationDetails.ContractorName, PDFUtil.spanNormalBlack,colSpan: 3));
+            contractInfo.AddCell(PDFUtil.CreateCell(model.ContractInformationDetails.ContractorName, PDFUtil.spanNormalBlack, colSpan: 3));
 
 
             contractInfo.AddCell(PDFUtil.CreateCell("Primary Contact Name", PDFUtil.font_body_bold, 2, false));
             contractInfo.AddCell(PDFUtil.CreateCell(model.ContractInformationDetails.PrimaryContact, PDFUtil.spanNormalBlack));
             contractInfo.AddCell(PDFUtil.CreateCell("Phone", PDFUtil.font_body_bold, 2, false));
-            contractInfo.AddCell(PDFUtil.CreateCell(model.ContractInformationDetails.PrimaryPhone, PDFUtil.spanNormalBlack));
+            contractInfo.AddCell(PDFUtil.CreateCell(AppUtil.formatPhoneNumber(model.ContractInformationDetails.PrimaryPhone), PDFUtil.spanNormalBlack));
 
             contractInfo.AddCell(PDFUtil.CreateCell("Fence Type", PDFUtil.font_body_bold, 2, false));
             contractInfo.AddCell(PDFUtil.CreateCell(model.ContractInformationDetails.ListFenceTypes.
-                First(i => i.FenceTypeId.ToString() == model.ContractInformationDetails.FenceType).FenceTypeName, PDFUtil.spanNormalBlack,colSpan: 3));
+                First(i => i.FenceTypeId.ToString() == model.ContractInformationDetails.FenceType).FenceTypeName, PDFUtil.spanNormalBlack, colSpan: 3));
 
             contractInfo.AddCell(PDFUtil.CreateCell("Special Notes", PDFUtil.font_body_bold, 2, false));
             contractInfo.AddCell(PDFUtil.CreateCell(model.ContractInformationDetails.SplNotes, PDFUtil.spanNormalBlack));
@@ -379,17 +308,10 @@ namespace AtlasForms.Controllers
 
             document.Add(contractInfo);
 
-            document.Add(PDFUtil.HeaderSection("Installation"));
+            #endregion
 
-            var installDetails = new PdfPTable(6);
-            installDetails.HorizontalAlignment = 0;
-            installDetails.WidthPercentage = 90;
-            installDetails.SpacingBefore = 5;
-            installDetails.SpacingAfter = 5;
-            installDetails.DefaultCell.Border = 0;
-            installDetails.DefaultCell.Padding = 10f;
-            installDetails.SetWidths(new float[] { 2, 2, 2, 2,2,2 });
-
+            #region Installation
+            var installDetails = PDFUtil.createTableWithHeader("Installation", new float[] { 2, 2, 2, 2, 2, 2 });
             installDetails.AddCell(PDFUtil.CreateCell("Pre Make Gates", PDFUtil.font_body_bold, 2, false));
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListInstallationResponses.
                 First(i => i.ResponseId.ToString() == model.InstallationDetails.PremakeGate.ToString()).Response, PDFUtil.spanNormalBlack, colSpan: 5));
@@ -412,9 +334,9 @@ namespace AtlasForms.Controllers
 
             installDetails.AddCell(PDFUtil.CreateCell("Gate Description", PDFUtil.font_body_bold, 2, false));
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.GateDescription1, PDFUtil.spanNormalBlack));
-            installDetails.AddCell(PDFUtil.CreateCell("Gate Installation", PDFUtil.font_body_bold, 2, false ));
+            installDetails.AddCell(PDFUtil.CreateCell("Gate Installation", PDFUtil.font_body_bold, 2, false));
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListGateInstallation.
-                FirstOrDefault(i => i.GateInstallationID.ToString()== model.InstallationDetails.GateInstallationID1)?.Description, PDFUtil.spanNormalBlack, colSpan: 3));
+                FirstOrDefault(i => i.GateInstallationID.ToString() == model.InstallationDetails.GateInstallationID1)?.Description, PDFUtil.spanNormalBlack, colSpan: 3));
 
             installDetails.AddCell(PDFUtil.CreateCell("Gate Description", PDFUtil.font_body_bold, 2, false));
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.GateDescription2, PDFUtil.spanNormalBlack));
@@ -446,7 +368,7 @@ namespace AtlasForms.Controllers
                 First(i => i.ResponseId.ToString() == model.InstallationDetails.EquipmentRequired).Response, PDFUtil.spanNormalBlack));
             installDetails.AddCell(PDFUtil.CreateCell("Dig Type", PDFUtil.font_body_bold, 2, false));
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListDigType.
-                First(i => i.DigTypeId == model.InstallationDetails.DigTypeID).DigType, PDFUtil.spanNormalBlack, colSpan:3));
+                First(i => i.DigTypeId == model.InstallationDetails.DigTypeID).DigType, PDFUtil.spanNormalBlack, colSpan: 3));
 
             installDetails.AddCell(PDFUtil.CreateCell("Water Available", PDFUtil.font_body_bold, 2, false));
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListInstallationResponses.
@@ -466,18 +388,12 @@ namespace AtlasForms.Controllers
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.BudgetedInstallDays, PDFUtil.spanNormalBlack));
             installDetails.AddCell(PDFUtil.CreateCell("Scope", PDFUtil.font_body_bold, 2, false));
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.Scope, PDFUtil.spanNormalBlack, colSpan: 3));
-
             document.Add(installDetails);
 
-            var buildList = new PdfPTable(6);
-            buildList.HorizontalAlignment = 0;
-            buildList.WidthPercentage = 90;
-            buildList.SpacingBefore = 5;
-            buildList.SpacingAfter = 5;
-            buildList.DefaultCell.Border = 0;
-            buildList.DefaultCell.Padding = 10f;
-            buildList.SetWidths(new float[] { 2, 2, 2, 2, 2, 2 });
+            #endregion
 
+            #region BuildChecklist
+            var buildList = PDFUtil.createTableWithHeader("Build Checklist", new float[] { 2, 2, 2, 2, 3, 2 });
             buildList.AddCell(PDFUtil.CreateCell("Pool Code", PDFUtil.font_body_bold, 2, false));
             buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
                 First(i => i.ResponseId.ToString() == model.BuildChecklistDetails.PoolCode.ToString()).Response, PDFUtil.spanNormalBlack));
@@ -494,7 +410,7 @@ namespace AtlasForms.Controllers
             buildList.AddCell(PDFUtil.CreateCell("Morticed", PDFUtil.font_body_bold, 2, false));
             buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
                 First(i => i.ResponseId == model.BuildChecklistDetails.Morticed).Response, PDFUtil.spanNormalBlack));
-            buildList.AddCell(PDFUtil.CreateCell("Saftey Meeting/Orintation Onsite", PDFUtil.font_body_bold, 2, false));
+            buildList.AddCell(PDFUtil.CreateCell("Saftey Meeting/Orientation Onsite", PDFUtil.font_body_bold, 2, false));
             buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
                 First(i => i.ResponseId == model.BuildChecklistDetails.SafteyMeetingOrintationOnsiteReq).Response, PDFUtil.spanNormalBlack));
 
@@ -533,7 +449,7 @@ namespace AtlasForms.Controllers
                 First(i => i.ResponseId == model.BuildChecklistDetails.TrimInField).Response, PDFUtil.spanNormalBlack));
             buildList.AddCell(PDFUtil.CreateCell("Stain", PDFUtil.font_body_bold, 2, false));
             buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
-                First(i => i.ResponseId == model.BuildChecklistDetails.Stain).Response, PDFUtil.spanNormalBlack, colSpan:3));
+                First(i => i.ResponseId == model.BuildChecklistDetails.Stain).Response, PDFUtil.spanNormalBlack, colSpan: 3));
 
             buildList.AddCell(PDFUtil.CreateCell("Post Pins", PDFUtil.font_body_bold, 2, false));
             buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.ListBuildResponses.
@@ -550,9 +466,10 @@ namespace AtlasForms.Controllers
             buildList.AddCell(PDFUtil.CreateCell("Other Hazards", PDFUtil.font_body_bold, 2, false));
             buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.OtherHazards, PDFUtil.spanNormalBlack, colSpan: 2));
             buildList.AddCell(PDFUtil.CreateCell("Notes", PDFUtil.font_body_bold, 2, false));
-            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.Notes, PDFUtil.spanNormalBlack, colSpan: 3)); 
+            buildList.AddCell(PDFUtil.CreateCell(model.BuildChecklistDetails.Notes, PDFUtil.spanNormalBlack, colSpan: 3));
 
             document.Add(buildList);
+            #endregion
 
             document.Close();
             byte[] file = ms.ToArray();
