@@ -162,13 +162,15 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.ContractInformationDetails.SplNotes, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
                                 <div class="col-md-4">
-                                    @Html.TextAreaFor(model => model.ContractInformationDetails.SplNotes,new { @class = "form-control", @rows = 3 })
+                                    @Html.TextAreaFor(model => model.ContractInformationDetails.SplNotes,new { @class = "form-control text-detail", @rows = 3 })
                                     @Html.ValidationMessageFor(model => model.ContractInformationDetails.SplNotes, "", new { @class = "text-danger" })
+                                    <span class="counter badge"></span>
                                 </div>
                                 @Html.LabelFor(model => model.ContractInformationDetails.Directions, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
                                 <div class="col-md-3">
-                                    @Html.TextAreaFor(model => model.ContractInformationDetails.Directions, new { @class = "form-control", @rows = 3 })
+                                    @Html.TextAreaFor(model => model.ContractInformationDetails.Directions, new { @class = "form-control text-detail", @rows = 3 })
                                     @Html.ValidationMessageFor(model => model.ContractInformationDetails.Directions, "", new { @class = "text-danger" })
+                                    <span class="counter badge"></span>
                                 </div>
                             </div>
                         </div>
@@ -359,8 +361,9 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.InstallationDetails.Scope, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
                                 <div class="col-md-3">
-                                    @Html.TextAreaFor(model => model.InstallationDetails.Scope, new { @class = "form-control", @rows = 3 })
+                                    @Html.TextAreaFor(model => model.InstallationDetails.Scope, new { @class = "form-control text-detail", @rows = 3 })
                                     @Html.ValidationMessageFor(model => model.InstallationDetails.Scope, "", new { @class = "text-danger" })
+                                    <span class="counter badge"></span>
                                 </div>
                                 @Html.LabelFor(model => model.InstallationDetails.BudgetedInstallDays, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
                                 <div class="col-md-3">
@@ -541,8 +544,9 @@
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.BuildChecklistDetails.OtherHazards, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
                                         <div class="col-md-6">
-                                            @Html.TextAreaFor(model => model.BuildChecklistDetails.OtherHazards, new { @class = "form-control", @rows = 5, @cols = 80 })
+                                            @Html.TextAreaFor(model => model.BuildChecklistDetails.OtherHazards, new { @class = "form-control text-detail-1", @rows = 5, @cols = 80 })
                                             @Html.ValidationMessageFor(model => model.BuildChecklistDetails.OtherHazards, "", new { @class = "text-danger" })
+                                            <span class="counter badge"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -550,8 +554,9 @@
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.BuildChecklistDetails.Notes, htmlAttributes: new { @class = "control-label col-md-2 project-labels" })
                                         <div class="col-md-6">
-                                            @Html.TextAreaFor(model => model.BuildChecklistDetails.Notes, new { @class = "form-control", @rows = 5, @cols = 80 })
+                                            @Html.TextAreaFor(model => model.BuildChecklistDetails.Notes, new { @class = "form-control text-detail-1", @rows = 5, @cols = 80 })
                                             @Html.ValidationMessageFor(model => model.BuildChecklistDetails.Notes, "", new { @class = "text-danger" })
+                                            <span class="counter badge"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -626,6 +631,8 @@
                 $('form').attr('autocomplete', 'off');
                 $(".info-field").attr('readonly', 'readonly');
                 $(".info-field").css("background-color", "#f1f1f1");
+                $(".text-detail").attr("maxlength", 180);
+                $(".text-detail-1").attr("maxlength", 500);
                 $("#print").hide();
                 $("#print").click(function () {
                     window.open(baseUrl() + 'Report/JobHardDetails/id/' + $("#HardCardId").val());
@@ -641,6 +648,7 @@
                 }
             }
 
+
             $(document).ready(function () {
 
                 if (IsValidNo($("#HardCardId").val())) {
@@ -650,6 +658,17 @@
 
                     }
                 }
+
+                $("textarea").on("keyup", function (e) {
+                    var maxlen = $(this).attr("maxlength");
+                    var textlen = $(this).val().length;
+                    counter = maxlen - textlen;
+                    $($(this).closest("div").find(".counter")).html(counter + " characters left");
+                    if (maxlen == textlen) {
+                        return;
+                    }
+                })
+               
 
            
                 if (!IsValidNo($("#ProjectHeaderId").val()) || !IsValidNo($("#BidItemHeaderid").val())) {

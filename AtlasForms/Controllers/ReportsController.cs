@@ -141,6 +141,8 @@ namespace AtlasForms.Controllers
 
             document.Add(ContractTable);
 
+            document.NewPage();
+
             var BondingTable = PDFUtil.createTableWithHeader("Bonding/Insurance/Labor ", new float[] { 3, 1, 1.5f, 5 });
             BondingTable.AddCell(PDFUtil.CreateCell("Received bond (if required) and necessary insurance certification", PDFUtil.font_body_bold, 2, false));
             BondingTable.AddCell(PDFUtil.CreateCell(model.ListResponses.
@@ -200,8 +202,6 @@ namespace AtlasForms.Controllers
             OtherImportantTable.AddCell(PDFUtil.CreateCell("Please fill in any other pertinant information", PDFUtil.font_body_bold, 2, false));
             OtherImportantTable.AddCell(PDFUtil.CreateCell(model.otherImportantFactors.OtherPertinentInformation, PDFUtil.spanNormalBlack, 0, false));
             document.Add(OtherImportantTable);
-
-           // document.Add(PDFUtil.GetLineSeparator());
 
             var footerTable = PDFUtil.createTableWithHeader("", new float[] { 1, 2, 1, 2 },true);
             footerTable.AddCell(PDFUtil.CreateCell("Estimator Name", PDFUtil.font_body_bold, 2, false));
@@ -330,7 +330,8 @@ namespace AtlasForms.Controllers
             installDetails.AddCell(PDFUtil.CreateCell("Finish Date", PDFUtil.font_body_bold, 2, false));
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.FinishDate, PDFUtil.spanNormalBlack));
             installDetails.AddCell(PDFUtil.CreateCell("Hard Date", PDFUtil.font_body_bold, 2, false));
-            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.HardDate, PDFUtil.spanNormalBlack));
+            installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.ListInstallationResponses.
+                FirstOrDefault(i => i.ResponseId.ToString() == model.InstallationDetails.HardDate)?.Response, PDFUtil.spanNormalBlack));
 
             installDetails.AddCell(PDFUtil.CreateCell("Gate Description", PDFUtil.font_body_bold, 2, false));
             installDetails.AddCell(PDFUtil.CreateCell(model.InstallationDetails.GateDescription1, PDFUtil.spanNormalBlack));
@@ -391,6 +392,8 @@ namespace AtlasForms.Controllers
             document.Add(installDetails);
 
             #endregion
+
+            document.NewPage();
 
             #region BuildChecklist
             var buildList = PDFUtil.createTableWithHeader("Build Checklist", new float[] { 2, 2, 2, 2, 3, 2 });
